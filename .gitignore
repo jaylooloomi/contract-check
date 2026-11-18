@@ -6,3 +6,4 @@ docs/deck/contact.png
 .claude/worktrees/
 data/law_update_log.jsonl
 data/raw/I0050021_2*.html
+acceptance_logs/
