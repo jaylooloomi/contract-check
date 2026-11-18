@@ -28,9 +28,11 @@ agenda = [('1', '做了什麼', '一句話說清楚，先問了哪些問題', '�
 for i, (n_, t, d, pg) in enumerate(agenda):
     y = 2.0 + i*1.15
     box(s, 0.9, y, 0.85, 0.85, n_, fill=A, line=A, sz=28, color=WH, shape=MSO_SHAPE.OVAL)
-    tb(s, 2.0, y+0.02, 5.0, 0.6, t, 28, True, DK)
-    tb(s, 6.2, y+0.12, 4.9, 0.6, d, 20, False, GR)
-    tb(s, 11.0, y+0.12, 1.9, 0.6, pg, 18, False, A)
+    # 文字框與圓圈同高、垂直置中，讓每一列的中心線對齊
+    for x_, w_, txt, sz_, b_, c_ in [(2.0, 4.0, t, 28, True, DK), (6.2, 4.9, d, 20, False, GR), (11.0, 1.9, pg, 18, False, A)]:
+        t_ = tb(s, x_, y, w_, 0.85, txt, sz_, b_, c_)
+        tf_ = t_.text_frame; tf_.vertical_anchor = MSO_ANCHOR.MIDDLE; tf_.margin_top = tf_.margin_bottom = 0
+        tf_.paragraphs[0].space_after = Pt(0)
 tb(s, 0.9, 6.7, 12, 0.5, '備用頁：兩小時的時間線（被問到再看）', 16, False, GR)
 notes(s, '今天分 4 段：做了什麼、怎麼做、用起來怎樣、做得好不好。第 3 段我會直接操作給你看。後面還有附表和備用頁，有問題我們再翻。')
 
