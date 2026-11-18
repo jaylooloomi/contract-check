@@ -68,17 +68,28 @@ tb(s, 9.1, 1.95, 4.0, 2.4, ['法律從哪來', '• 法務部全國法規資料�
 tb(s, 9.1, 4.45, 4.0, 2.4, ['不讓 AI 亂講的三道關', '① 只能從找到的法律裡選', '② 檢查號碼是真的（引用驗證）', '③ 最後由人決定'], 18, True, A)
 notes(s, N[2] + N[3])
 
-# 5 screens (wizard + A/B/C)
-s = prs.slides.add_slide(L); head(s, '4 / 7', '好用的畫面', '一步一步帶著做：放合約 → 等一下 → 一題一題回答')
-p_ = s.shapes.add_picture('img/ui_d3.png', Inches(0.6), Inches(1.9), width=Inches(7.6)); p_.line.color.rgb = RGBColor(0xd1, 0xd5, 0xdb)
-tb(s, 0.6, 6.7, 7.6, 0.5, '新版：一次只看一題，按「是問題」或「不是」就好', 16, False, GR, PP_ALIGN.CENTER)
-rows_ = [('D 一步一步帶著做（精靈）', '新手也會用（主推）', A), ('A 一眼看全部', '短合約', DK), ('B 一題一題快速過（佇列）', '很多合約要看', DK), ('C 像讀紙本一樣', '從頭讀到尾', DK)]
-for i, (t, d, c) in enumerate(rows_):
-    y = 1.95 + i*1.0
-    tb(s, 8.6, y, 4.4, 0.5, t, 22, True, c)
-    tb(s, 8.6, y+0.45, 4.4, 0.45, d, 16, False, GR)
-box(s, 8.6, 6.0, 4.3, 0.95, ['看過的合約點一下就打開', '不用再等一次'], fill=RGBColor(0xf5, 0xf5, 0xf7), sz=18)
-notes(s, N[4])
+# 5 screens: before / after
+s = prs.slides.add_slide(L); head(s, '4 / 7', '畫面怎麼改', '從「一次看全部」改成「一步一步帶著做」')
+RED = RGBColor(0xff, 0x3b, 0x30); GRN = RGBColor(0x24, 0x8a, 0x3d)
+cols5 = [(0.6, '之前：一次看全部（A 版）', GR, 'img/ui_a.png',
+          ['✕ 條款和問題全擠在一頁，不知道從哪開始', '✕ 看不出還剩幾題沒看', '✕ 等檢查時畫面沒反應，以為當機', '✕ 看過的合約要重新上傳、再等一次'], RED),
+         (6.95, '之後：一步一步帶著做（D 版，精靈）', A, 'img/ui_d3.png',
+          ['✓ 一次只看一題，旁邊就是法律原文', '✓ 上方步驟條＋「3 / 5」，知道做到哪', '✓ 大按鈕「是問題／不是」，鍵盤 Y／N 也行', '✓ 看過的合約點一下就打開，不用再等'], GRN)]
+for x, ttl, c, img, pts, pc in cols5:
+    tb(s, x, 1.75, 5.8, 0.45, ttl, 20, True, c)
+    pic = s.shapes.add_picture(img, Inches(x), Inches(2.25), width=Inches(4.3)); pic.line.color.rgb = RGBColor(0xd2, 0xd2, 0xd7)
+    t_ = s.shapes.add_textbox(Inches(x), Inches(5.0), Inches(5.8), Inches(1.4)); tf = t_.text_frame; tf.word_wrap = True
+    for j, line_ in enumerate(pts):
+        p_ = tf.paragraphs[0] if j == 0 else tf.add_paragraph(); p_.space_after = Pt(2)
+        r1 = p_.add_run(); r1.text = line_[0] + ' '; setfont(r1, 16, True, pc)
+        r2 = p_.add_run(); r2.text = line_[2:]; setfont(r2, 16, False, DK)
+arrow(s, 5.2, 3.6, 6.7, 3.6)
+box(s, 0.6, 6.45, 12.1, 0.6, '為什麼這樣改：法務一天要看很多份合約 → 一次只做一件事、隨時知道進度、少一次等待，就少一次出錯', fill=RGBColor(0xf5, 0xf5, 0xf7), sz=16, bold=False)
+tb(s, 0.6, 7.07, 10.5, 0.3, '另外保留 B 審閱佇列（大量快速過）、C 全文標註（從頭讀）給不同習慣的人；精靈版尚未給真的法務試用', 11, False, GR)
+notes(s, '這頁我想講「為什麼改」，不是只秀畫面。左邊是我第一版做的畫面：條款和問題全擠在一起，法務一打開不知道從哪開始，也看不出還剩幾題；檢查要等十幾秒，畫面沒反應會以為當機；看過的合約還得重新上傳。'
+         '右邊是改過的精靈版：一次只看一題，法律原文就在旁邊；上面有步驟條和「第幾題／共幾題」；兩顆大按鈕，鍵盤 Y、N 也能按；看過的合約在首頁點一下就打開。'
+         '設計原則只有一個：法務一天要看很多份，每少一個要記住的東西、少一次等待，就少一次出錯。要誠實說，這還沒給真的法務試用過，下一步要做易用性測試。'
+         '（接著切到瀏覽器現場操作。）')
 
 # 6 verification
 s = prs.slides.add_slide(L); head(s, '5 / 7', '準不準？', '練習過的題目全對，換一張新考卷就一題都沒抓到')
