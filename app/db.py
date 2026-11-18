@@ -32,6 +32,23 @@ def connect(path="data/app.db") -> sqlite3.Connection:
     return conn
 
 
+# 冪等遷移：舊資料庫補欄位（新增欄位一律可為 NULL；NULL 代表「舊資料，未記錄」）
+MIGRATIONS = {
+    "contracts": [("rule_status", "TEXT"), ("ai_status", "TEXT"),  # ai_status: not_requested|ok|partial|failed
+                  ("ai_detail", "TEXT"), ("law_version", "TEXT")],
+    "findings": [("article_snapshot", "TEXT"), ("law_version", "TEXT")],
+}
+
+
+def migrate(conn: sqlite3.Connection) -> None:
+    for table, cols in MIGRATIONS.items():
+        have = {r[1] for r in conn.execute(f"PRAGMA table_info({table})")}
+        for name, typ in cols:
+            if name not in have:
+                conn.execute(f"ALTER TABLE {table} ADD COLUMN {name} {typ}")
+
+
 def init_db(conn: sqlite3.Connection) -> None:
     conn.executescript(SCHEMA)
+    migrate(conn)
     conn.commit()

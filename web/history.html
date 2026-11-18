@@ -27,12 +27,13 @@ a.v.main{background:var(--a);color:#fff}
 <div class="card"><table data-testid="history-list"><thead><tr><th>#</th><th>檔名</th><th>時間</th><th>擷取</th><th>疑慮</th><th>待複核</th><th>打開</th></tr></thead>
 <tbody id="tb"><tr><td colspan="7" class="mu">載入中…</td></tr></tbody></table></div>
 </main>
+<script src="/static/status.js"></script>
 <script>
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 fetch('/api/contracts?limit=200').then(r=>r.json()).then(L=>{
   document.getElementById('tb').innerHTML=L.length?L.map(c=>`<tr data-testid="history-item" data-contract-id="${esc(c.id)}">
    <td>${esc(c.id)}</td><td class="nm">${esc(c.filename)}</td><td>${esc(String(c.uploaded_at).slice(0,16).replace('T',' '))}</td>
-   <td>${c.extract_method==='ocr'?'OCR':'文字'}</td><td>${esc(c.finding_count)}</td>
+   <td>${c.extract_method==='ocr'?'OCR':'文字'}</td><td>${esc(c.finding_count)} ${ccBadge(c)}</td>
    <td>${c.pending_count?`<span class="pend">${esc(c.pending_count)}</span>`:'✓'}</td>
    <td><a class="v main" href="/v/wizard?id=${esc(c.id)}" title="精靈複核">D</a><a class="v" href="/?id=${esc(c.id)}">A</a><a class="v" href="/v/b?id=${esc(c.id)}">B</a><a class="v" href="/v/c?id=${esc(c.id)}">C</a></td></tr>`).join('')
    :'<tr><td colspan="7" class="mu">還沒有檢查過的合約</td></tr>'}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan="7">載入失敗：'+esc(e.message)+'</td></tr>'});

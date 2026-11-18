@@ -35,18 +35,18 @@ def _wait(url, timeout=60):
     raise RuntimeError(f"server not ready: {url}")
 
 
-@pytest.fixture(scope="session")
-def server(tmp_path_factory):
+def _serve(tmp_path_factory, port, extra_env=None):
     src = os.path.join(ROOT, "data", "app.db")
     db = tmp_path_factory.mktemp("e2e_db") / "e2e.db"
     shutil.copy(src, db)
-    env = {**os.environ, "CC_DB": str(db), "PYTHONIOENCODING": "utf-8"}
+    env = {**os.environ, "CC_DB": str(db), "PYTHONIOENCODING": "utf-8", **(extra_env or {})}
     log = open(tmp_path_factory.mktemp("e2e_log") / "server.log", "wb")
-    proc = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--port", str(PORT)],
+    proc = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--port", str(port)],
                             cwd=ROOT, env=env, stdout=log, stderr=subprocess.STDOUT)
+    base = f"http://127.0.0.1:{port}"
     try:
-        _wait(BASE + "/api/law")
-        yield BASE
+        _wait(base + "/api/law")
+        yield base
     finally:
         proc.terminate()
         try:
@@ -54,6 +54,18 @@ def server(tmp_path_factory):
         except subprocess.TimeoutExpired:
             proc.kill()
         log.close()
+
+
+@pytest.fixture(scope="session")
+def server(tmp_path_factory):
+    yield from _serve(tmp_path_factory, PORT)
+
+
+@pytest.fixture(scope="session")
+def server_ai_down(tmp_path_factory):
+    """第二台隔離伺服器：AI 探測網址指向不可達位址，模擬「Ollama 沒開」。"""
+    port = int(os.environ.get("CC_E2E_PORT_AI_DOWN", PORT + 1))
+    yield from _serve(tmp_path_factory, port, {"CC_AI_PROBE_URL": "http://127.0.0.1:9/api/tags"})
 
 
 @pytest.fixture(scope="session")

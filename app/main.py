@@ -21,6 +21,76 @@ conn = connect(DB_PATH)
 init_db(conn)
 
 
+# AI 服務探測：可用環境變數 CC_AI_PROBE_URL 覆寫（E2E 用不可達網址模擬「AI 沒開」）
+AI_PROBE_URL = os.environ.get("CC_AI_PROBE_URL", "http://localhost:11434/api/tags")
+AI_DOWN_DETAIL = "AI 服務未啟動，僅完成規則檢查"
+# 「待人工確認」判準：條款提到個資相關字眼，卻沒有任何疑慮，且 AI 沒有成功跑完 → 規則找不到≠沒問題
+PD_WORDS = ("個人資料", "個資", "姓名", "電話", "地址", "病歷", "帳號", "資料")
+
+
+def probe_ai(timeout=3) -> bool:
+    try:
+        with urllib.request.urlopen(AI_PROBE_URL, timeout=timeout) as r:
+            return r.status == 200
+    except Exception:
+        return False
+
+
+def law_version_text() -> str | None:
+    """例：民國114年11月11日修正｜抓取 2026-11-18"""
+    row = conn.execute("SELECT amended_date, fetched_at FROM laws LIMIT 1").fetchone()
+    if not row:
+        return None
+    amended = (row["amended_date"] or "").replace(" ", "")
+    return f"{amended}修正｜抓取 {(row['fetched_at'] or '')[:10]}"
+
+
+def run_check(cid: int, use_ai: bool) -> dict:
+    """呼叫 check_contract 並回傳明確狀態。相容 check_contract 回傳 int 或
+    {"finding_count", "status": {"ai": ...}}（dict 版若有 status.ai 就以它為準）。"""
+    ai_status, ai_detail = "not_requested", None
+    if use_ai and not probe_ai():
+        use_ai, ai_status, ai_detail = False, "failed", AI_DOWN_DETAIL
+    elif use_ai:
+        ai_status = "ok"
+    res = check_contract(conn, cid, use_ai=use_ai)
+    if isinstance(res, dict):
+        n = int(res.get("finding_count", 0))
+        status = res.get("status") or {}
+        st = status.get("ai")
+        if ai_status != "failed":  # 探測已判定 AI 沒開時，以探測結果為準
+            if isinstance(st, dict):  # 容許 {"status": ..., "detail": ...} 形式
+                ai_status, ai_detail = st.get("status", ai_status), st.get("detail", ai_detail)
+            elif isinstance(st, str):
+                ai_status, ai_detail = st, status.get("ai_detail", ai_detail)
+    else:
+        n = int(res)
+    version = law_version_text()
+    conn.execute("UPDATE contracts SET rule_status='ok', ai_status=?, ai_detail=?, law_version=? WHERE id=?",
+                 (ai_status, ai_detail, version, cid))
+    # 引用快照：把當下法條原文與版本凍結在疑慮上，日後法規更新也能追溯當時依據
+    conn.execute(
+        "UPDATE findings SET article_snapshot=(SELECT a.content FROM articles a"
+        " WHERE a.law_id=findings.law_id AND a.article_no=findings.article_no), law_version=?"
+        " WHERE contract_id=? AND article_snapshot IS NULL", (version, cid))
+    conn.commit()
+    return {"finding_count": n, "rule_status": "ok", "ai_status": ai_status, "ai_detail": ai_detail,
+            "law_version": version}
+
+
+def needs_review(clauses, findings, ai_status):
+    """回傳每條款的 needs_review／needs_review_reason。舊資料（ai_status 為 NULL）不判定。"""
+    flagged = {f["clause_seq"] for f in findings}
+    for c in clauses:
+        hit = next((w for w in PD_WORDS if w in (c.get("text") or "")), None)
+        nr = bool(ai_status and ai_status != "ok" and hit and c["seq"] not in flagged)
+        c["needs_review"] = nr
+        c["needs_review_reason"] = (f"條款提到「{hit}」但規則未比對到疑慮，且"
+                                    f"{'未啟用 AI' if ai_status == 'not_requested' else 'AI 未完成'}，請人工確認"
+                                    ) if nr else None
+    return clauses
+
+
 def now():
     return datetime.now().astimezone().isoformat(timespec="seconds")
 
@@ -72,21 +142,26 @@ def upload(file: UploadFile = File(...), use_ai: bool = False):
         conn.execute("INSERT INTO clauses(contract_id,seq,title,text) VALUES(?,?,?,?)",
                      (cid, c["seq"], c["title"], c["text"]))
     conn.commit()
-    n = check_contract(conn, cid, use_ai=use_ai)
-    return {"contract_id": cid, "extract_method": r["method"], "clause_count": len(clauses), "finding_count": n}
+    st = run_check(cid, use_ai)
+    return {"contract_id": cid, "extract_method": r["method"], "clause_count": len(clauses), **st}
 
 
 @app.get("/api/contracts")
 def list_contracts(limit: int = 50):
     """歷史列表：最新的在前，附疑慮數與待複核數，方便直接打開不必重跑。"""
     rows = conn.execute(
-        "SELECT c.id, c.filename, c.uploaded_at, c.extract_method,"
+        "SELECT c.id, c.filename, c.uploaded_at, c.extract_method, c.rule_status, c.ai_status, c.ai_detail, c.law_version,"
         " (SELECT COUNT(*) FROM clauses WHERE contract_id=c.id) AS clause_count,"
         " (SELECT COUNT(*) FROM findings WHERE contract_id=c.id) AS finding_count,"
         " (SELECT COUNT(*) FROM findings f WHERE f.contract_id=c.id"
         "   AND NOT EXISTS (SELECT 1 FROM reviews r WHERE r.finding_id=f.id)) AS pending_count"
         " FROM contracts c ORDER BY c.id DESC LIMIT ?", (max(1, min(limit, 500)),)).fetchall()
     return [dict(r) for r in rows]
+
+
+@app.get("/static/status.js")
+def status_js():
+    return FileResponse(os.path.join(ROOT, "web", "status.js"), media_type="text/javascript")
 
 
 @app.get("/static/apple.css")
@@ -101,7 +176,7 @@ def history_page():
 
 @app.get("/api/contracts/{cid}")
 def get_contract(cid: int):
-    c = conn.execute("SELECT id,filename,uploaded_at,extract_method FROM contracts WHERE id=?", (cid,)).fetchone()
+    c = conn.execute("SELECT id,filename,uploaded_at,extract_method,rule_status,ai_status,ai_detail,law_version FROM contracts WHERE id=?", (cid,)).fetchone()
     if not c:
         raise HTTPException(404, "找不到合約")
     clauses = [dict(r) for r in conn.execute("SELECT * FROM clauses WHERE contract_id=? ORDER BY seq", (cid,))]
@@ -116,7 +191,10 @@ def get_contract(cid: int):
                           (d["id"],)).fetchone()
         d["latest_review"] = dict(rv) if rv else None
         findings.append(d)
-    return {"contract": dict(c), "clauses": clauses, "findings": findings}
+    needs_review(clauses, findings, c["ai_status"])
+    return {"contract": dict(c), "clauses": clauses, "findings": findings,
+            "rule_status": c["rule_status"], "ai_status": c["ai_status"], "ai_detail": c["ai_detail"],
+            "law_version": c["law_version"]}
 
 
 class Review(BaseModel):
