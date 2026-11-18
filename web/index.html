@@ -36,6 +36,7 @@ header b{font-size:18px}header small{opacity:.75}header a{color:#93c5fd}
     <span id="msg" class="note" data-testid="status-message">支援文字版與掃描版 PDF（掃描檔會自動 OCR）</span>
   </div>
   <div id="result" hidden>
+    <div id="ccStatus"></div>
     <div class="stats">
       <div class="stat"><b id="s-name"></b><span class="note" id="s-meta"></span></div>
       <div class="stat"><b id="s-all" data-testid="count-total">0</b>可能疑慮</div>
@@ -48,6 +49,7 @@ header b{font-size:18px}header small{opacity:.75}header a{color:#93c5fd}
   </div>
   <p class="disc" data-testid="disclaimer">※ 系統列出的是「可能疑慮」，供法務人員複核，不代表違法判定。法條內容取自全國法規資料庫原文。</p>
 </div>
+<script src="/static/status.js"></script>
 <script>
 let data=null,sel=null;
 const $=id=>document.getElementById(id);
@@ -65,6 +67,7 @@ $('go').onclick=async()=>{
 const qid=new URLSearchParams(location.search).get('id');if(qid)load(qid).catch(e=>$('msg').textContent='無法載入合約：'+e.message);
 async function load(id){const r=await fetch('/api/contracts/'+id),d=await r.json();if(!r.ok){$('result').hidden=true;throw new Error(d.detail||('HTTP '+r.status))}data=d;sel=null;$('result').hidden=false;render()}
 function render(){
+  $('ccStatus').innerHTML=ccStatus(data);
   const c=data.contract,fl=new Set(data.findings.map(f=>f.clause_seq));
   $('s-name').textContent=c.filename;$('s-meta').textContent=`${data.clauses.length} 條款｜${c.extract_method==='ocr'?'OCR 擷取':'文字擷取'}`;
   $('s-all').textContent=data.findings.length;$('s-done').textContent=data.findings.filter(f=>f.latest_review).length;
@@ -72,7 +75,7 @@ function render(){
   const fs=data.findings.filter(f=>!sel||f.clause_seq===sel);
   $('findings').innerHTML=fs.map(f=>{const rv=f.latest_review;
    return `<div class="f ${rv?rv.decision:''}" data-testid="finding-card" data-finding-id="${f.id}"><span class="tag">條款 ${f.clause_seq}</span><span class="tag ${f.source}">${f.source==='ai'?'AI':'規則'}</span><b>${esc(f.title)}</b>
-   <div>${esc(f.reason)}</div><div class="law"><b>個資法 第${esc(f.article_no)}條</b>\n${esc(f.article_content)}</div>
+   <div>${esc(f.reason)}</div><div class="law"><b>個資法 第${esc(f.article_no)}條</b>\n${ccLaw(f)}</div>
    <div class="acts">${rv?`<span class="note">已${rv.decision==='confirm'?'確認為疑慮':'駁回'}（${esc(rv.reviewed_at.slice(11,16))}）</span>`:''}
    <button class="btn g" data-testid="confirm-button" onclick="review(${f.id},'confirm')">確認疑慮</button><button class="btn r" data-testid="reject-button" onclick="review(${f.id},'reject')">駁回</button></div></div>`}).join('')||'<p class="note">此條款沒有疑慮。</p>'}
 async function review(id,d){await fetch(`/api/findings/${id}/review`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision:d})});await load(data.contract.id)}

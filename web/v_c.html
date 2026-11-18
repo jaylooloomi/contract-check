@@ -43,12 +43,14 @@ textarea{width:100%;font:inherit;font-size:13px;border:1px solid var(--bd);borde
     <span id="msg" class="note" data-testid="status-message" role="status" aria-live="polite">支援文字版與掃描版 PDF</span>
   </div>
   <div id="result" hidden>
+    <div id="ccStatus"></div>
     <div class="legend"><span><i style="background:var(--rule);border-bottom:3px solid var(--rule-b)"></i>規則比對</span><span><i style="background:var(--ai);border-bottom:3px solid var(--ai-b)"></i>AI 判讀</span><span><i style="background:var(--both);border-bottom:3px solid var(--both-b)"></i>規則＋AI 皆標出</span>
       <span>疑慮 <b data-testid="count-total" id="c-all">0</b>｜待複核 <b data-testid="count-pending" id="c-pend">0</b>｜已確認 <b data-testid="count-confirmed" id="c-conf">0</b>｜已駁回 <b data-testid="count-rejected" id="c-rej">0</b></span></div>
     <div class="doc" id="doc"></div>
   </div>
 </div>
 <aside class="drawer" id="drawer" data-testid="finding-drawer" aria-hidden="true"><h3><span id="d-title"></span><button class="btn o" data-testid="drawer-close" onclick="closeD()">關閉 ✕</button></h3><div id="d-body"></div></aside>
+<script src="/static/status.js"></script>
 <script>
 let data=null,cur=null;
 const $=id=>document.getElementById(id);
@@ -69,6 +71,7 @@ $('go').onclick=async()=>{
 async function load(id){try{data=await api('/api/contracts/'+encodeURIComponent(id));$('result').hidden=false;render();if(cur!==null)openD(cur)}catch(e){setMsg('無法載入合約 #'+id+'：'+e.message,1)}}
 const byClause=seq=>data.findings.filter(f=>f.clause_seq===seq);
 function render(){
+  $('ccStatus').innerHTML=ccStatus(data);
   const F=data.findings,c=F.filter(f=>f.latest_review&&f.latest_review.decision==='confirm').length,r=F.filter(f=>f.latest_review&&f.latest_review.decision==='reject').length;
   $('c-all').textContent=F.length;$('c-pend').textContent=F.length-c-r;$('c-conf').textContent=c;$('c-rej').textContent=r;
   const k=data.contract;
@@ -80,7 +83,7 @@ function openD(seq){cur=seq;const cl=data.clauses.find(k=>k.seq===seq);$('d-titl
   $('d-body').innerHTML=byClause(seq).map(f=>{const rv=f.latest_review;return `<div class="f ${rv?rv.decision:''}" data-testid="finding-card" data-finding-id="${f.id}">
     <span class="tag ${esc(f.source)}" data-testid="finding-source">${f.source==='ai'?'AI 判讀':'規則比對'}</span><b>${esc(f.title)}</b>
     <div><b>疑慮理由：</b>${esc(f.reason)}</div>
-    <div class="law"><b>個資法 第${esc(f.article_no)}條（原文）</b>\n${esc(f.article_content||'（查無法條原文）')}</div>
+    <div class="law"><b>個資法 第${esc(f.article_no)}條（原文）</b>\n${ccLaw(f)}</div>
     <div class="note" data-testid="finding-status">${rv?`已${rv.decision==='confirm'?'確認為疑慮':'駁回'}（${esc(String(rv.reviewed_at||'').slice(0,16).replace('T',' '))}）${rv.note?'｜理由：'+esc(rv.note):''}`:'待複核'}</div>
     <textarea id="n${f.id}" data-testid="reject-note" placeholder="駁回理由（選填）" rows="2"></textarea>
     <div class="acts"><button class="btn g" data-testid="confirm-button" onclick="review(${f.id},'confirm')">確認疑慮</button><button class="btn r" data-testid="reject-button" onclick="review(${f.id},'reject')">駁回</button></div></div>`}).join('');

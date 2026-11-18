@@ -94,6 +94,7 @@ kbd{border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding
 <section id="s3" class="card" hidden>
   <div class="top"><span class="mu" id="cname"></span>
     <span><b data-testid="queue-position" id="pos"></b></span></div>
+  <div class="ccStatus"></div>
   <div class="bar" data-testid="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="bar"></i></div>
   <div id="cardBox"></div>
   <p class="mu center"><kbd>Y</kbd> 是疑慮　<kbd>N</kbd> 不是　<kbd>J</kbd>/<kbd>K</kbd> 下／上一筆</p>
@@ -101,6 +102,7 @@ kbd{border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding
 
 <section id="s4" class="card center" hidden>
   <div data-testid="all-done"><div class="ok-ic">✓</div><div class="ttl">複核完成</div><div class="mu" id="cname4"></div></div>
+  <div class="ccStatus" style="text-align:left"></div>
   <div class="stats">
     <div><b data-testid="count-total" id="c-all">0</b>疑慮</div>
     <div class="s-ok"><b data-testid="count-confirmed" id="c-conf">0</b>是疑慮</div>
@@ -113,6 +115,7 @@ kbd{border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding
   </div>
 </section>
 </main>
+<script src="/static/status.js"></script>
 <script>
 let data=null,idx=0,busy=false,step=1,lastAct=null,timer=null;
 const $=id=>document.getElementById(id);
@@ -157,7 +160,7 @@ function restart(){data=null;clearInterval(timer);file.value='';pick();history.r
 async function loadHist(){try{const L=await api('/api/contracts?limit=6');$('histBox').hidden=!L.length;
   $('hist').innerHTML=L.map(c=>`<li data-testid="history-item" data-contract-id="${esc(c.id)}" tabindex="0" title="打開檢查結果（不重跑）">
    <span><span class="nm">${esc(c.filename)}</span><br><span class="meta">${esc(String(c.uploaded_at).slice(5,16).replace('T',' '))}・${c.extract_method==='ocr'?'OCR':'文字'}</span></span>
-   <span class="meta">${esc(c.finding_count)} 疑慮${c.pending_count?`・<b style="color:var(--a)">${esc(c.pending_count)} 待複核</b>`:'・✓'}</span></li>`).join('');
+   <span class="meta">${ccBadge(c)} ${esc(c.finding_count)} 疑慮${c.pending_count?`・<b style="color:var(--a)">${esc(c.pending_count)} 待複核</b>`:'・✓'}</span></li>`).join('');
   $('hist').querySelectorAll('li').forEach(li=>{const open=()=>{const id=li.dataset.contractId;idx=0;history.replaceState(null,'','?id='+id);load(id)};
     li.onclick=open;li.onkeydown=e=>{if(e.key==='Enter')open()}})}catch(e){$('histBox').hidden=true}}
 $('restart1').onclick=restart;$('restart2').onclick=restart;
@@ -167,6 +170,7 @@ function render(){const F=data.findings,n=F.length,c=F.filter(f=>st(f)==='confir
   $('c-all').textContent=n;$('c-pend').textContent=n-c-r;$('c-conf').textContent=c;$('c-rej').textContent=r;
   const p=n?Math.round((c+r)/n*100):100;$('bar').style.width=p+'%';$('bar').parentNode.setAttribute('aria-valuenow',p);
   $('cname').textContent=$('cname4').textContent=data.contract.filename;
+  document.querySelectorAll('.ccStatus').forEach(x=>x.innerHTML=ccStatus(data));
   if(!P.length){go(4);return}
   go(3);idx=Math.max(0,Math.min(idx,P.length-1));const f=P[idx],cl=data.clauses.find(k=>k.seq===f.clause_seq);
   $('pos').textContent=`${c+r+1} / ${n}`;$('pos').title=`待複核第 ${idx+1}／${P.length} 筆`;
@@ -176,7 +180,7 @@ function render(){const F=data.findings,n=F.length,c=F.filter(f=>st(f)==='confir
    <div class="clause" title="條款原文">${cl&&cl.title&&!String(cl.text||'').startsWith(cl.title)?esc(cl.title)+'　':''}${esc(cl&&cl.text)}</div>
    <div class="mu" style="margin-top:8px">${esc(f.reason)}</div>
    <button class="lt" data-testid="law-toggle" aria-expanded="false" onclick="toggleLaw(this)">▸ 個資法 第${esc(f.article_no)}條</button>
-   <div class="law" id="lawTxt" hidden>${esc(f.article_content||'（查無法條原文）')}</div>
+   <div class="law" id="lawTxt" hidden>${ccLaw(f)}</div>
    <div class="big2"><button class="btn ok" data-testid="confirm-button" onclick="review('confirm')" title="確認為疑慮（Y）">✓ 是疑慮</button>
      <button class="btn no" data-testid="reject-button" onclick="openReject()" title="不是疑慮，可填理由（N）">✕ 不是</button></div>
    <div id="noteBox" hidden><textarea id="note" data-testid="reject-note" placeholder="理由（選填，Enter 送出，Esc 取消）"></textarea>

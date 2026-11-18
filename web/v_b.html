@@ -41,6 +41,7 @@ kbd{border:1px solid #ccc;border-bottom-width:2px;border-radius:3px;padding:0 4p
     <span id="msg" class="note" data-testid="status-message" role="status" aria-live="polite">支援文字版與掃描版 PDF</span>
   </div>
   <div id="result" hidden>
+    <div id="ccStatus"></div>
     <div class="sum">
       <div class="cnt">
         <span><b id="s-name" data-testid="contract-name"></b></span>
@@ -58,6 +59,7 @@ kbd{border:1px solid #ccc;border-bottom-width:2px;border-radius:3px;padding:0 4p
     <p class="note">快捷鍵：<kbd>J</kbd> 下一筆 <kbd>K</kbd> 上一筆 <kbd>Y</kbd> 確認疑慮 <kbd>N</kbd> 駁回（可填理由）</p>
   </div>
 </div>
+<script src="/static/status.js"></script>
 <script>
 let data=null,idx=0,fSrc='all',fSt='pending',busy=false;
 const $=id=>document.getElementById(id);
@@ -79,6 +81,7 @@ $('go').onclick=async()=>{
 async function load(id){try{data=await api('/api/contracts/'+encodeURIComponent(id));$('result').hidden=false;render()}catch(e){setMsg('無法載入合約 #'+id+'：'+e.message,1)}}
 function list(){return data.findings.filter(f=>(fSrc==='all'||f.source===fSrc)&&(fSt==='all'||st(f)===fSt))}
 function render(){
+  $('ccStatus').innerHTML=ccStatus(data);
   const F=data.findings,n=F.length,c=F.filter(f=>st(f)==='confirm').length,r=F.filter(f=>st(f)==='reject').length;
   $('s-name').textContent=data.contract.filename;$('c-all').textContent=n;$('c-pend').textContent=n-c-r;$('c-conf').textContent=c;$('c-rej').textContent=r;
   const p=n?Math.round((c+r)/n*100):100;$('bar').style.width=p+'%';$('bar').parentNode.setAttribute('aria-valuenow',p);
@@ -86,7 +89,7 @@ function render(){
   $('chips').innerHTML='來源：'+chip('source','all','全部',fSrc)+chip('source','rule','規則',fSrc)+chip('source','ai','AI',fSrc)+'　狀態：'+chip('status','all','全部',fSt)+chip('status','pending','待複核',fSt)+chip('status','confirm','已確認',fSt)+chip('status','reject','已駁回',fSt);
   const L=list();
   if(n&&c+r===n&&(fSt==='pending'||!L.length)){$('pos').textContent='';$('card').innerHTML=`<div class="done" data-testid="all-done">✓ 全部複核完成（確認 ${c}、駁回 ${r}）。可按「匯出 CSV」留存結果，或切換狀態篩選回看。</div>`;return}
-  if(!n){$('pos').textContent='';$('card').innerHTML='<div class="done" data-testid="all-done">此合約未發現疑慮。</div>';return}
+  if(!n){$('pos').textContent='';$('card').innerHTML=`<div class="done" data-testid="all-done">${esc(ccZeroText(data))}</div>`;return}
   if(!L.length){$('pos').textContent='';$('card').innerHTML='<p class="note">此篩選條件下沒有項目。</p>';return}
   idx=Math.max(0,Math.min(idx,L.length-1));const f=L[idx],rv=f.latest_review,cl=data.clauses.find(k=>k.seq===f.clause_seq);
   $('pos').textContent=`第 ${idx+1} / ${L.length} 筆`+(c+r===n?'（全部複核完成）':'');
@@ -94,7 +97,7 @@ function render(){
    <span class="tag">條款 ${esc(f.clause_seq)}</span><span class="tag ${esc(f.source)}" data-testid="finding-source">${f.source==='ai'?'AI 判讀':'規則比對'}</span><b>${esc(f.title)}</b>
    <div class="clause"><b>${esc(cl&&cl.title)}</b>　${esc(cl&&cl.text)}</div>
    <div><b>疑慮理由：</b>${esc(f.reason)}</div>
-   <div class="law"><b>個資法 第${esc(f.article_no)}條</b>\n${esc(f.article_content||'（查無法條原文）')}</div>
+   <div class="law"><b>個資法 第${esc(f.article_no)}條</b>\n${ccLaw(f)}</div>
    ${rv?`<div class="note" data-testid="finding-status">已${rv.decision==='confirm'?'確認為疑慮':'駁回'}（${esc(String(rv.reviewed_at||'').slice(0,16).replace('T',' '))}）${rv.note?'｜理由：'+esc(rv.note):''}</div>`:'<div class="note" data-testid="finding-status">待複核</div>'}
    <div id="noteBox" hidden><textarea id="note" data-testid="reject-note" placeholder="駁回理由（選填，會留在稽核紀錄）"></textarea>
      <div class="acts"><button class="btn r" data-testid="reject-submit" onclick="doReject()">送出駁回</button><button class="btn o" onclick="$('noteBox').hidden=true">取消</button></div></div>
