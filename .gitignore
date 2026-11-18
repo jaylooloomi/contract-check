@@ -3,3 +3,4 @@ __pycache__/
 .pytest_cache/
 *.log
 docs/deck/contact.png
+.claude/worktrees/
