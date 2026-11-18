@@ -22,16 +22,16 @@ notes(s, '（開場前停在這頁。）謝謝給我這兩小時。我會用大�
 # 0b agenda
 s = prs.slides.add_slide(L); head(s, '目錄', '今天要講的 4 件事', '大約 10 分鐘，中間有 3 分鐘實際操作')
 agenda = [('1', '做了什麼', '一句話說清楚，先問了哪些問題', '第 1–2 頁'),
-          ('2', '怎麼做', '整個流程、法律從哪裡來', '第 3–4 頁'),
-          ('3', '用起來怎樣', '好用的畫面＋現場操作', '第 5 頁'),
-          ('4', '做得好不好', '準不準、做到哪裡、接下來', '第 6–7 頁')]
+          ('2', '怎麼做', '整個流程、法律從哪裡來', '第 3 頁'),
+          ('3', '用起來怎樣', '好用的畫面＋現場操作', '第 4 頁'),
+          ('4', '做得好不好', '準不準、怎麼檢查 AI、做到哪裡', '第 5–7 頁')]
 for i, (n_, t, d, pg) in enumerate(agenda):
     y = 2.0 + i*1.15
     box(s, 0.9, y, 0.85, 0.85, n_, fill=A, line=A, sz=28, color=WH, shape=MSO_SHAPE.OVAL)
     tb(s, 2.0, y+0.02, 5.0, 0.6, t, 28, True, DK)
     tb(s, 6.2, y+0.12, 4.9, 0.6, d, 20, False, GR)
     tb(s, 11.0, y+0.12, 1.9, 0.6, pg, 18, False, A)
-tb(s, 0.9, 6.7, 12, 0.5, '附表與備用頁：完成度清單、怎麼檢查 AI、時間線、練習合約（被問到再看）', 16, False, GR)
+tb(s, 0.9, 6.7, 12, 0.5, '備用頁：兩小時的時間線（被問到再看）', 16, False, GR)
 notes(s, '今天分 4 段：做了什麼、怎麼做、用起來怎樣、做得好不好。第 3 段我會直接操作給你看。後面還有附表和備用頁，有問題我們再翻。')
 
 # 1 one-liner
@@ -59,30 +59,15 @@ for i, (q, a, why) in enumerate(items):
 box(s, 0.7, 5.5, 11.9, 0.9, '沒有雲端 AI 鑰匙（API key）→ 改用本機 AI，合約不外傳', fill=RGBColor(0xef, 0xf6, 0xff), sz=22)
 notes(s, N[1])
 
-# 3 architecture
-s = prs.slides.add_slide(L); head(s, '3 / 7', '整個流程怎麼跑', '先讓整條路走得通：只做一部法律，但每一步都做到')
+# 3 flow + law source (merged)
+s = prs.slides.add_slide(L); head(s, '3 / 7', '整個流程怎麼跑', '法律從政府網站抓下來存好，每份合約進來都走同一條路')
 s.shapes.add_picture('img/arch.png', Inches(0.5), Inches(1.9), width=Inches(8.4))
-table(s, 9.1, 1.9, 3.95, [('先做', '之後再做'), ('一部法律', '很多部法律'), ('本機 AI', '雲端 AI'), ('全文檢索', '向量檢索'), ('人來決定', '登入帳號')], [2.15, 1.8], 18, 0.62)
-tb(s, 9.1, 5.3, 3.95, 1.6, ['不讓 AI 亂講的三道關：', '只能從找到的法律裡選', '→ 檢查號碼是真的（引用驗證）→ 人決定'], 18, True, A)
-notes(s, N[2])
-
-# 4 law source + tables
-s = prs.slides.add_slide(L); head(s, '4 / 7', '法律從哪裡來', '法律是從政府網站抓下來的，不是 AI 背出來的')
-tb(s, 0.6, 1.95, 5.6, 3.5, ['• 來源：法務部全國法規資料庫', '• 原始網頁也存下來，查得到', '• 數了三次都是 66 條', '• 人工對了 3 條原文'], 22)
-x0 = 6.9
-box(s, x0, 2.0, 2.6, 0.85, ['法律（laws）', '例：個資法'], sz=18); box(s, x0+3.2, 2.0, 2.6, 0.85, ['每一條（articles）', '第幾條＋內容'], sz=18)
-arrow(s, x0+2.6, 2.42, x0+3.2, 2.42)
-ys = [3.35, 4.35, 5.35]
-for (en, zh), y in zip([('合約（contracts）', '放上來的檔案'), ('條款（clauses）', '合約的第幾條'), ('問題（findings）', '電腦標出來的')], ys):
-    box(s, x0, y, 2.6, 0.75, [en, zh], sz=18)
-for y in ys[:-1]: arrow(s, x0+1.3, y+0.75, x0+1.3, y+1.0)
-box(s, x0+3.2, 5.35, 2.6, 0.75, ['人的決定（reviews）', '只會加，不會改'], fill=RGBColor(0xfe, 0xf3, 0xc7), line=RGBColor(0xd9, 0x77, 0x06), sz=18)
-arrow(s, x0+2.6, 5.72, x0+3.2, 5.72); arrow(s, x0+4.5, 2.85, x0+2.65, 5.4)
-tb(s, x0, 6.3, 6, 0.5, '每次「是／不是」都留下紀錄，以後查得到', 16, False, GR)
-notes(s, N[3])
+tb(s, 9.1, 1.95, 4.0, 2.4, ['法律從哪來', '• 法務部全國法規資料庫', '• 原始網頁也存下來', '• 數了三次都是 66 條'], 18)
+tb(s, 9.1, 4.45, 4.0, 2.4, ['不讓 AI 亂講的三道關', '① 只能從找到的法律裡選', '② 檢查號碼是真的（引用驗證）', '③ 最後由人決定'], 18, True, A)
+notes(s, N[2] + N[3])
 
 # 5 screens (wizard + A/B/C)
-s = prs.slides.add_slide(L); head(s, '5 / 7', '好用的畫面', '一步一步帶著做：放合約 → 等一下 → 一題一題回答')
+s = prs.slides.add_slide(L); head(s, '4 / 7', '好用的畫面', '一步一步帶著做：放合約 → 等一下 → 一題一題回答')
 p_ = s.shapes.add_picture('img/ui_d3.png', Inches(0.6), Inches(1.9), width=Inches(7.6)); p_.line.color.rgb = RGBColor(0xd1, 0xd5, 0xdb)
 tb(s, 0.6, 6.7, 7.6, 0.5, '新版：一次只看一題，按「是問題」或「不是」就好', 16, False, GR, PP_ALIGN.CENTER)
 rows_ = [('D 一步一步帶著做（精靈）', '新手也會用（主推）', A), ('A 一眼看全部', '短合約', DK), ('B 一題一題快速過（佇列）', '很多合約要看', DK), ('C 像讀紙本一樣', '從頭讀到尾', DK)]
@@ -94,40 +79,13 @@ box(s, 8.6, 6.0, 4.3, 0.95, ['看過的合約點一下就打開', '不用再等�
 notes(s, N[4])
 
 # 6 verification
-s = prs.slides.add_slide(L); head(s, '6 / 7', '準不準？', '練習過的題目全對，換一張新考卷就一題都沒抓到')
+s = prs.slides.add_slide(L); head(s, '5 / 7', '準不準？', '練習過的題目全對，換一張新考卷就一題都沒抓到')
 s.shapes.add_picture('img/eval.png', Inches(0.4), Inches(1.85), width=Inches(8.9))
 tb(s, 9.5, 2.0, 3.6, 5.0, ['• 功能都會動：', '  自動檢查 17 項全過', '  （驗收測試）', '  模擬真人操作 29 次全過', '  （E2E 測試）', '• 但會動 ≠ 找得準', '• 新考卷（盲測）的結果', '  老實寫出來'], 18)
 notes(s, N[5])
 
-# 7 status
-s = prs.slides.add_slide(L); head(s, '7 / 7', '做到哪裡了', '整條路已經走得通；找得準不準，要用真的合約來證明')
-cols_ = [('✓ 做好了', RGBColor(0x16, 0xa3, 0x4a), RGBColor(0xdc, 0xfc, 0xe7), ['存好法律、會 OCR', '自動標出問題、人來決定', '4 種畫面、自動測試、影片']),
-         ('○ 還沒做', GR, RGBColor(0xf3, 0xf4, 0xf6), ['更多種法律', '合約上鎖、到期刪除', '登入帳號、放上網路']),
-         ('? 還不知道', RGBColor(0xd9, 0x77, 0x06), RGBColor(0xfe, 0xf3, 0xc7), ['用真的合約找得準不準', '法務用起來順不順', '很長的合約跑多快'])]
-for i, (t, c, bg, its) in enumerate(cols_):
-    x = 0.6 + i*4.13
-    box(s, x, 1.85, 3.9, 0.65, t, fill=c, line=c, sz=22, color=WH, shape=MSO_SHAPE.RECTANGLE)
-    box(s, x, 2.5, 3.9, 2.0, '', fill=bg, line=c, shape=MSO_SHAPE.RECTANGLE)
-    tb(s, x+0.2, 2.65, 3.6, 1.9, its, 18)
-tb(s, 0.6, 4.7, 12.2, 0.9, ['接下來：① 拿 20 份真的合約（去識別化），請法務給答案　② 換更聰明的 AI 再考一次', '　　　　③ 把法務「是／不是」的紀錄拿來讓電腦變更準'], 18)
-box(s, 0.6, 6.0, 12.1, 0.95, '電腦負責提醒，每個提醒都附法律原文，最後由人決定', fill=A, line=A, sz=26, color=WH, shape=MSO_SHAPE.RECTANGLE)
-notes(s, N[6])
-
-# 完成度清單（表格截圖自 docs/status.html）
-s = prs.slides.add_slide(L); head(s, '附表 1', '做好了什麼', '先做的都是「少了它就不能用」的東西，而且都有證明')
-s.shapes.add_picture('img/status_done.png', Inches(0.6), Inches(1.95), width=Inches(12.1))
-notes(s, '這張表回答「為什麼先做這些」。原則只有一個：少了它，這個工具就不能用。'
-         '沒有真的法律，就沒東西可以比對；看不懂掃描檔，法務就用不了；沒有人來決定，就變成電腦在判定違法。'
-         '每一項我都寫了「怎麼知道真的做好」，不是只說做好了。')
-s = prs.slides.add_slide(L); head(s, '附表 2', '還沒做、還不知道的', '沒做的是故意先不做；做了但還不知道好不好的，我也老實列出來')
-s.shapes.add_picture('img/status_todo.png', Inches(1.15), Inches(1.85), width=Inches(11.0))
-s.shapes.add_picture('img/status_ver.png', Inches(1.15), Inches(1.85 + 11.0*700/2904 + 0.15), width=Inches(11.0))
-notes(s, '上半部是還沒做的，每一項都是故意先不做，也都想好之後怎麼做。我特別想提「合約上鎖、到期自動刪」：'
-         '這個工具本身就在處理個資，正式版一定要做到，這也是個資法第 27 條要求的安全維護。'
-         '下半部是「做了，但還不知道好不好」，最重要的是準不準：新考卷只有 0/3，要用真的合約和法務給的答案才能證明。')
-
-# Backup A
-s = prs.slides.add_slide(L); head(s, '備用 A', '我怎麼檢查 AI 做得對不對', 'AI 說「做完了」，我一定自己再看一次')
+# 6 how I check AI
+s = prs.slides.add_slide(L); head(s, '6 / 7', '我怎麼檢查 AI 做得對不對', 'AI 說「做完了」，我一定自己再看一次')
 table(s, 0.6, 1.95, 12.1, [('時間', '發生什麼事', '我怎麼處理'),
       ('19:50', '電腦裡有兩個版本的 Python，會打架', '統一用同一個版本'),
       ('19:56', '看圖認字（OCR）把「洩」認成「浅」', '放寬比對，記下這個缺點'),
@@ -136,8 +94,25 @@ table(s, 0.6, 1.95, 12.1, [('時間', '發生什麼事', '我怎麼處理'),
 tb(s, 0.6, 5.7, 12.1, 0.6, '工具裡的三道關：AI 只能從找到的法律裡選 → 檢查號碼是真的（引用驗證）→ 人決定', 20, True, A)
 notes(s, N[7])
 
+# 7 status (merged with 附表)
+s = prs.slides.add_slide(L); head(s, '7 / 7', '做到哪裡了', '整條路已經走得通；找得準不準，要用真的合約來證明')
+cols_ = [('✓ 做好了', RGBColor(0x16, 0xa3, 0x4a), RGBColor(0xdc, 0xfc, 0xe7), ['存好法律', '　沒法律就沒得比', '看得懂掃描檔（OCR）', '　合約常是掃描的', '人來決定', '　電腦會出錯']),
+         ('○ 還沒做', GR, RGBColor(0xf3, 0xf4, 0xf6), ['更多種法律', '　先證明一部可行', '合約上鎖、到期刪除', '　正式版一定要做', '登入、放上網路', '　跟準不準無關']),
+         ('? 還不知道', RGBColor(0xd9, 0x77, 0x06), RGBColor(0xfe, 0xf3, 0xc7), ['真的合約準不準', '　考卷是我自己出的', '法務用起來順不順', '　還沒人試用', '很長的合約多快', '　只試過 1–2 頁'])]
+for i, (t, c, bg, its) in enumerate(cols_):
+    x = 0.6 + i*4.13
+    box(s, x, 1.85, 3.9, 0.65, t, fill=c, line=c, sz=22, color=WH, shape=MSO_SHAPE.RECTANGLE)
+    box(s, x, 2.5, 3.9, 2.75, '', fill=bg, line=c, shape=MSO_SHAPE.RECTANGLE)
+    t_ = s.shapes.add_textbox(Inches(x+0.2), Inches(2.6), Inches(3.6), Inches(2.6)); tf = t_.text_frame; tf.word_wrap = True
+    for j, line_ in enumerate(its):
+        p_ = tf.paragraphs[0] if j == 0 else tf.add_paragraph(); r_ = p_.add_run(); r_.text = line_
+        setfont(r_, 18 if j % 2 == 0 else 15, j % 2 == 0, DK if j % 2 == 0 else GR)
+tb(s, 0.6, 5.4, 12.2, 0.6, '接下來：① 20 份真的合約（去識別化）請法務給答案　② 換更聰明的 AI 再考一次　③ 用法務的紀錄讓電腦變更準', 16)
+box(s, 0.6, 6.15, 12.1, 0.85, '電腦負責提醒，每個提醒都附法律原文，最後由人決定', fill=A, line=A, sz=24, color=WH, shape=MSO_SHAPE.RECTANGLE)
+notes(s, N[6] + '（被問到細節時：沒做的都是故意先不做，最重要的是合約加密與自動刪除，這是個資法第 27 條的安全維護要求。）')
+
 # Backup B timeline
-s = prs.slides.add_slide(L); head(s, '備用 B', '兩小時怎麼用', '先想清楚、再分工一起做、最後一定檢查')
+s = prs.slides.add_slide(L); head(s, '備用', '兩小時怎麼用', '先想清楚、再分工一起做、最後一定檢查')
 tl = [('19:43', '問清楚'), ('19:52', '寫計畫書\n（SDD 規格）'), ('19:54', '分三組\n一起做'), ('20:00', '整條路\n走得通'), ('20:05', '出考卷考自己\n（盲測）'), ('20:16', '畫面、影片、\n簡報')]
 line = s.shapes.add_connector(MSO_CONNECTOR.STRAIGHT, Inches(0.9), Inches(3.6), Inches(12.5), Inches(3.6)); line.line.color.rgb = A; line.line.width = Pt(4)
 for i, (t, d) in enumerate(tl):
@@ -147,11 +122,5 @@ for i, (t, d) in enumerate(tl):
     tb(s, x-0.2, 4.1, 2.2, 1.2, d.split('\n'), 18, False, DK, PP_ALIGN.CENTER)
 tb(s, 0.9, 5.8, 12, 0.6, '20:05 發現 AI 助手的報告是假的 → 丟掉重做', 20, True, RGBColor(0xdc, 0x26, 0x26))
 notes(s, N[8])
-
-# Backup C demo contracts
-s = prs.slides.add_slide(L); head(s, '備用 C', '四份練習用的假合約', '每一份都是為了看一種狀況（也包含失敗的）')
-table(s, 0.6, 2.0, 12.1, [('合約', '想看什麼', '結果'), ('01 委外行銷', '問題很明顯時', '5 個全抓到'), ('02 員工資料（掃描的）', '看圖認字（OCR）', '3 個抓到 2 個（認錯一個字）'),
-      ('03 寫得很好的合約', '會不會亂標', '0 個，沒有亂標'), ('04 換個說法', '換句話說抓不抓得到（規則盲點）', '6 個都沒抓到')], [4.0, 3.6, 4.5], 20, 0.75)
-notes(s, N[9])
 
 prs.save('合約外規檢查_簡報.pptx'); print('saved v2')
