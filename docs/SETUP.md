@@ -10,7 +10,7 @@
 |---|---|---|
 | Python 3.12 | 必要 | `py -3.12 --version` 要印出 `Python 3.12.x`。paddlepaddle 2.6.2 沒有 3.13 的 wheel。 |
 | Git | 必要 | 取得原始碼 |
-| 網路 | 必要（第一次） | pip 下載約 300–400 MB（paddlepaddle CPU wheel 約 100 MB、opencv 兩套約 90 MB、scipy／scikit-image 等）；Playwright chromium 約 150 MB；PaddleOCR 模型第一次 OCR 時自動下載約 33 MB 到 `%USERPROFILE%\.paddleocr\whl` |
+| 網路 | 必要（第一次） | pip 下載約 300–400 MB（paddlepaddle CPU wheel 約 100 MB、opencv 兩套約 90 MB、scipy／scikit-image 等）；Playwright chromium 約 150 MB；PaddleOCR 模型第一次 OCR 時自動下載約 17 MB（中文模型；另有繁中辨識模型時合計約 33 MB）到 `%USERPROFILE%\.paddleocr\whl` |
 | Ollama + `qwen3:8b` | 選用 | AI 輔助檢查用，模型約 5.2 GB。沒裝也能跑：系統自動只做規則檢查，所有測試都不依賴它。 |
 
 > ⚠ **`python` 與 `py -3.12` 陷阱**：Windows 上 `python` 可能指向別的版本（3.13、Microsoft Store 版，或沒有套件的另一份安裝）。
@@ -32,11 +32,12 @@ python -m pip install --upgrade pip
 ## 2. 安裝相依套件
 
 ```powershell
-python -m pip install -r requirements-dev.txt     # 含 requirements.txt；約 3–6 分鐘（視網速）
+python -m pip install -r requirements-dev.txt     # 含 requirements.txt；實測 4 分鐘，venv 約 1 GB
 python -m playwright install chromium             # E2E 測試用瀏覽器，約 150 MB
 ```
 - `requirements.txt`：執行期（FastAPI、PyMuPDF、PaddleOCR…）。只要跑系統、不跑測試，裝這個就夠。
 - `requirements-dev.txt`：再加 pytest、httpx、playwright。
+- E2E 測試會重新截圖覆寫 `docs/wizard/*.png`，屬正常；不想留下變更就 `git checkout docs/wizard`。
 - 版本都已釘死；`numpy` 必須 < 2（paddle 2.6 的限制）。
 
 選用（AI 輔助）：安裝 Ollama（https://ollama.com），然後 `ollama pull qwen3:8b`。
@@ -74,9 +75,9 @@ python eval/run_eval.py                     # 準確度實測（含答案卷）
 
 | 指令 | 預期 | 時間 |
 |---|---|---|
-| 單元／驗收 | `17 passed, 29 deselected`（含 1 個 OCR 測試，第一次會下載模型） | 約 10–40 秒 |
+| 單元／驗收 | `17 passed, 29 deselected`（含 OCR 測試；第一次會下載模型，實測空快取也只多幾秒） | 約 10–40 秒 |
 | E2E | `29 passed` | 約 35 秒 |
-| eval | 印出 8 行 JSON（4 份 PDF × rule / rule+ai），寫入 `eval/results.json` | 只跑規則：約 1 分鐘；有 Ollama：每份 rule+ai 數分鐘 |
+| eval | 印出 8 行 JSON（4 份 PDF × rule / rule+ai），寫入 `eval/results.json` | 沒有 Ollama：約 1–2 分鐘；有 Ollama + qwen3:8b：約 11 分鐘（實測 680 秒） |
 
 - warnings 很多（paddle／protobuf 的 DeprecationWarning）屬正常。
 - eval 會覆寫 repo 內追蹤的 `eval/results.json`；不想留下變更就 `git checkout eval/results.json`。
@@ -99,6 +100,7 @@ macOS／Linux 有 `scripts/run_acceptance.sh`（未測試）。
 | `import paddle` 報 `No module named 'setuptools'` | Python 3.12 的 venv 預設不含 setuptools，paddle 執行期會用到。已列在 `requirements.txt`；舊版 clone 請 `python -m pip install setuptools==81.0.0`。 |
 | `numpy` 相關錯誤／`_ARRAY_API not found` | 裝到 numpy 2.x。`python -m pip install numpy==1.26.4`。 |
 | E2E 報 `Executable doesn't exist ... chromium` | 沒跑 `python -m playwright install chromium`（要在同一個 venv 裡跑）。 |
+| 啟動時 `[Errno 10048]`／`address already in use`，但 `/api/law` 仍有回應 | port 8000 已被別的程式（例如另一份本專案）佔用，你連到的是**那一個**伺服器。改 `--port 8001`。 |
 | E2E 報 `server not ready` | port 8013 被佔用。設 `$env:CC_E2E_PORT=8023` 再跑。 |
 | OCR 測試很慢或卡住 | 第一次在下載模型到 `~/.paddleocr`；需要網路。公司 proxy 擋下載時，可從已跑過的機器複製整個 `.paddleocr` 資料夾。 |
 | 終端機中文／✓ 變亂碼 | `$env:PYTHONIOENCODING="utf-8"`；或用 Windows Terminal。 |

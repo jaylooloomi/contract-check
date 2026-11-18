@@ -7,7 +7,7 @@ pydantic==2.12.5
 PyMuPDF==1.24.14           # import fitz
 beautifulsoup4==4.14.3     # scripts/import_law.py
 # OCR for scanned PDFs. paddle 2.6 requires numpy < 2.
-# First OCR run downloads ~33 MB of models into ~/.paddleocr/whl.
+# First OCR run downloads ~17-33 MB of models into ~/.paddleocr/whl.
 numpy==1.26.4
 setuptools==81.0.0         # paddle imports it at runtime; Python 3.12 venvs no longer ship it
 paddlepaddle==2.6.2
