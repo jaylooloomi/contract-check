@@ -84,6 +84,7 @@ s = prs.slides.add_slide(L); head(s, '4', '④ 系統架構', '法律從政府�
 s.shapes.add_picture('img/arch.png', Inches(0.5), Inches(1.9), width=Inches(8.4))
 tb(s, 9.1, 1.95, 4.0, 2.4, ['法律從哪來', '• 法務部全國法規資料庫', '• 原始網頁也存下來', '• 數了三次都是 66 條'], 18)
 tb(s, 9.1, 4.45, 4.0, 2.4, ['不讓 AI 亂講的三道關', '① 只能從找到的法律裡選', '② 檢查號碼是真的（引用驗證）', '③ 最後由人決定'], 18, True, A)
+tb(s, 9.1, 6.45, 4.0, 0.8, ['可追溯：每個疑慮都存下當時的', '法條原文＋法規版本（快照）'], 13, False, GR)
 notes(s, N[2] + N[3])
 
 # 5 screens: before / after
@@ -108,6 +109,20 @@ notes(s, '這頁我想講「為什麼改」，不是只秀畫面。左邊是我�
          '右邊是改過的精靈版：一次只看一題，法律原文就在旁邊；上面有步驟條和「第幾題／共幾題」；兩顆大按鈕，鍵盤 Y、N 也能按；看過的合約在首頁點一下就打開。'
          '設計原則只有一個：法務一天要看很多份，每少一個要記住的東西、少一次等待，就少一次出錯。要誠實說，這還沒給真的法務試用過，下一步要做易用性測試。'
          '（接著切到瀏覽器現場操作。）')
+
+# 5b status banner
+s = prs.slides.add_slide(L); head(s, '5', '⑤ 畫面調整：檢查狀態要說清楚', '「AI 沒跑完」絕不能看起來像「沒有問題」')
+pic = s.shapes.add_picture('img/status_ai_failed.png', Inches(0.6), Inches(1.8), width=Inches(7.4)); pic.line.color.rgb = RGBColor(0xd2, 0xd2, 0xd7)
+rows5 = [('✓ 規則＋AI 都完成', '正常顯示結果', RGBColor(0x24, 0x8a, 0x3d)),
+         ('⚠ AI 未完成（沒啟動／逾時／出錯）', '黃色警示：「僅完成規則檢查，結果可能不完整」', RGBColor(0xc9, 0x34, 0x00)),
+         ('AI 未啟用', '標明「僅規則檢查」', GR),
+         ('條款提到個資卻沒依據', '標「待人工確認」', A)]
+for i, (t, d, c) in enumerate(rows5):
+    y = 1.85 + i*1.05
+    tb(s, 8.3, y, 4.8, 0.45, t, 17, True, c)
+    tb(s, 8.3, y+0.42, 4.8, 0.5, d, 14, False, GR)
+box(s, 8.3, 6.15, 4.6, 0.8, ['0 個疑慮時也分清楚：', '「已檢查無疑慮」≠「AI 沒跑完」'], fill=RGBColor(0xf5, 0xf5, 0xf7), sz=15)
+notes(s, '')
 
 # 6 verification
 s = prs.slides.add_slide(L); head(s, '6', '⑥ 實作與修正：準不準？', '練習過的題目全對，換一張新考卷就一題都沒抓到')
