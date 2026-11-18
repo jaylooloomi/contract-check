@@ -1,0 +1,1474 @@
+{
+ "summary": {
+  "a_marketing|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 2,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.1
+  },
+  "a_marketing|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 2,
+   "rule_hit": 3,
+   "ai_hit": 1,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 2,
+   "ai_errors": 0,
+   "seconds": 74.4
+  },
+  "b_hr|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "b_hr|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 1,
+   "ai_errors": 0,
+   "seconds": 234.6
+  },
+  "c_cloud|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "c_cloud|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 3,
+   "ai_hit": 1,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 2,
+   "ai_errors": 0,
+   "seconds": 133.1
+  },
+  "d_holdout|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 0,
+   "ai_hit": 0,
+   "final_hit": 0,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "d_holdout|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 1,
+   "rule_hit": 0,
+   "ai_hit": 0,
+   "final_hit": 0,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 105.5
+  }
+ },
+ "results": [
+  {
+   "case": "a_marketing",
+   "source": "eval\\pdfs\\a_marketing_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "與合作夥伴共享供其行銷＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "終止後仍無期限留存",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "12"
+     ],
+     "issue": "未經授權存取不通知當事人",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.1,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "38",
+      "12",
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "38",
+      "12"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "a_marketing",
+   "source": "eval\\pdfs\\a_marketing_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "與合作夥伴共享供其行銷＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "20-1"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "終止後仍無期限留存",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "12"
+     ],
+     "issue": "未經授權存取不通知當事人",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 3,
+     "art": "42",
+     "src": "ai",
+     "title": "AI 提示疑慮"
+    },
+    {
+     "seq": 5,
+     "art": "11",
+     "src": "ai",
+     "title": "刪除期限是否符合法定條件"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "20-1",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 74.4,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "38",
+      "12",
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "20-1"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ],
+      [
+       "20-1",
+       "ai",
+       "個人資料安全維護不足"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": [
+      "42"
+     ],
+     "final": [
+      [
+       "42",
+       "ai",
+       "AI 提示疑慮"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": [],
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": [
+      "11"
+     ],
+     "final": [
+      [
+       "11",
+       "ai",
+       "刪除期限是否符合法定條件"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "38",
+      "12"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": [
+      "12"
+     ],
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "b_hr",
+   "source": "eval\\pdfs\\b_hr_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 8,
+   "clauses_expected": 8,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "6"
+     ],
+     "issue": "未經同意蒐集病歷、犯罪前科（特種個資）",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "6"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "20"
+     ],
+     "issue": "轉交關係企業推銷保險＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "11"
+     ],
+     "issue": "離職後長期保管不銷毀",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "6"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "6",
+       "rule",
+       "蒐集特種個人資料"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "20-1",
+      "18",
+      "6",
+      "48"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "38",
+      "12",
+      "18",
+      "20-1"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "8": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "b_hr",
+   "source": "eval\\pdfs\\b_hr_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 8,
+   "clauses_expected": 8,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "6"
+     ],
+     "issue": "未經同意蒐集病歷、犯罪前科（特種個資）",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "6",
+      "11"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "20"
+     ],
+     "issue": "轉交關係企業推銷保險＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "11"
+     ],
+     "issue": "離職後長期保管不銷毀",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 7,
+     "art": "12",
+     "src": "ai",
+     "title": "通知期限是否符合即時要求"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "11",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 234.6,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "6"
+     ],
+     "ai": [
+      "11"
+     ],
+     "final": [
+      [
+       "6",
+       "rule",
+       "蒐集特種個人資料"
+      ],
+      [
+       "11",
+       "ai",
+       "未經同意蒐集敏感個人資料"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "20-1",
+      "18",
+      "6",
+      "48"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": [],
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "38",
+      "12",
+      "18",
+      "20-1"
+     ],
+     "rule": [],
+     "ai": [
+      "12"
+     ],
+     "final": [
+      [
+       "12",
+       "ai",
+       "通知期限是否符合即時要求"
+      ]
+     ]
+    },
+    "8": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "c_cloud",
+   "source": "eval\\pdfs\\c_cloud_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "21"
+     ],
+     "issue": "任意境外備份、國家不告知（國際傳輸）",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "21"
+     ]
+    },
+    {
+     "seq": 3,
+     "accept": [
+      "12"
+     ],
+     "issue": "入侵外流不通知",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "20"
+     ],
+     "issue": "揭露予第三方廣告商＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "38",
+      "12"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10",
+      "38",
+      "12"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "5": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "18",
+      "6",
+      "48"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "c_cloud",
+   "source": "eval\\pdfs\\c_cloud_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "21"
+     ],
+     "issue": "任意境外備份、國家不告知（國際傳輸）",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "21",
+      "12"
+     ]
+    },
+    {
+     "seq": 3,
+     "accept": [
+      "12"
+     ],
+     "issue": "入侵外流不通知",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "20"
+     ],
+     "issue": "揭露予第三方廣告商＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": true,
+     "ai_hit": false,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "10"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 6,
+     "art": "41",
+     "src": "ai",
+     "title": "AI 提示疑慮"
+    },
+    {
+     "seq": 7,
+     "art": "20-1",
+     "src": "ai",
+     "title": "安全措施是否符合法定要求"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "12",
+     "src": "ai"
+    },
+    {
+     "seq": 5,
+     "art": "10",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 133.1,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "38",
+      "12"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": [
+      "12"
+     ],
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ],
+      [
+       "12",
+       "ai",
+       "個人資料跨境儲存未通知義務"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "42",
+      "41",
+      "10",
+      "38",
+      "12"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": [
+      "12"
+     ],
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "5": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "10"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ],
+      [
+       "10",
+       "ai",
+       "個人資料未經同意披露"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "42",
+      "41",
+      "10"
+     ],
+     "rule": [],
+     "ai": [
+      "41"
+     ],
+     "final": [
+      [
+       "41",
+       "ai",
+       "AI 提示疑慮"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "18",
+      "6",
+      "48"
+     ],
+     "rule": [],
+     "ai": [
+      "20-1"
+     ],
+     "final": [
+      [
+       "20-1",
+       "ai",
+       "安全措施是否符合法定要求"
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "case": "d_holdout",
+   "source": "inline",
+   "method": "inline",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": false,
+     "ai_hit": null,
+     "final_hit": false,
+     "final_articles": []
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": false,
+     "ai_hit": null,
+     "final_hit": false,
+     "final_articles": []
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "21"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": false,
+     "ai_hit": null,
+     "final_hit": false,
+     "final_articles": []
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "3": {
+     "cands": [
+      "12",
+      "48"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "5": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "d_holdout",
+   "source": "inline",
+   "method": "inline",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": false,
+     "ai_hit": false,
+     "final_hit": false,
+     "final_articles": []
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": false,
+     "ai_hit": false,
+     "final_hit": false,
+     "final_articles": []
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "21"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": false,
+     "rule_hit": false,
+     "ai_hit": false,
+     "final_hit": false,
+     "final_articles": [
+      "20-1"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 5,
+     "art": "20-1",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 105.5,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "4",
+      "52"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "3": {
+     "cands": [
+      "12",
+      "48"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "2",
+      "3",
+      "11",
+      "19"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "5": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [
+      "20-1"
+     ],
+     "final": [
+      [
+       "20-1",
+       "ai",
+       "個人資料跨境移轉安全疑慮"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "7": {
+     "cands": [
+      "20-1",
+      "11",
+      "1",
+      "17"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  }
+ ]
+}

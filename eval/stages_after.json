@@ -1,0 +1,2330 @@
+{
+ "summary": {
+  "a_marketing|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.4
+  },
+  "a_marketing|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 3,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 4,
+   "ai_errors": 0,
+   "seconds": 181.1
+  },
+  "b_hr|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "b_hr|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 3,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 2,
+   "ai_errors": 0,
+   "seconds": 191.8
+  },
+  "c_cloud|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "c_cloud|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 3,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 3,
+   "ai_errors": 0,
+   "seconds": 170.8
+  },
+  "d_holdout|rule": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 0,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 0,
+   "ai_errors": 0,
+   "seconds": 0.0
+  },
+  "d_holdout|rule+ai": {
+   "extraction_ok": 3,
+   "retrieval_hit": 3,
+   "rule_hit": 3,
+   "ai_hit": 3,
+   "final_hit": 3,
+   "issues": 3,
+   "fp": 2,
+   "ai_errors": 0,
+   "seconds": 178.2
+  }
+ },
+ "results": [
+  {
+   "case": "a_marketing",
+   "source": "eval\\pdfs\\a_marketing_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "與合作夥伴共享供其行銷＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "終止後仍無期限留存",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "12"
+     ],
+     "issue": "未經授權存取不通知當事人",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.4,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "a_marketing",
+   "source": "eval\\pdfs\\a_marketing_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "與合作夥伴共享供其行銷＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "5",
+      "8",
+      "19"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "終止後仍無期限留存",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "11",
+      "3",
+      "5",
+      "19",
+      "20"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "12"
+     ],
+     "issue": "未經授權存取不通知當事人",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "12",
+      "8"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 1,
+     "art": "8",
+     "src": "ai",
+     "title": "未明確告知個人資料蒐集目的及類別"
+    },
+    {
+     "seq": 1,
+     "art": "11",
+     "src": "ai",
+     "title": "未規範個人資料正確性及刪除義務"
+    },
+    {
+     "seq": 3,
+     "art": "3",
+     "src": "ai",
+     "title": "限制個人資料權利行使"
+    },
+    {
+     "seq": 3,
+     "art": "8",
+     "src": "ai",
+     "title": "未履行個人資料告知義務"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "3",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "20",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "8",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 181.1,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "8",
+      "11"
+     ],
+     "final": [
+      [
+       "8",
+       "ai",
+       "未明確告知個人資料蒐集目的及類別"
+      ],
+      [
+       "11",
+       "ai",
+       "未規範個人資料正確性及刪除義務"
+      ]
+     ]
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "5",
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ],
+      [
+       "5",
+       "ai",
+       "可能違反個人資料處理範圍限制"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的或取得同意"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "3",
+      "8"
+     ],
+     "final": [
+      [
+       "3",
+       "ai",
+       "限制個人資料權利行使"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料告知義務"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": [
+      "11",
+      "3",
+      "5",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ],
+      [
+       "3",
+       "ai",
+       "未排除刪除權限制"
+      ],
+      [
+       "5",
+       "ai",
+       "未說明資料留存目的"
+      ],
+      [
+       "19",
+       "ai",
+       "未說明特定目的"
+      ],
+      [
+       "20",
+       "ai",
+       "未說明利用範圍"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": [
+      "8",
+      "12"
+     ],
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行告知義務"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "b_hr",
+   "source": "eval\\pdfs\\b_hr_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 8,
+   "clauses_expected": 8,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "6"
+     ],
+     "issue": "未經同意蒐集病歷、犯罪前科（特種個資）",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "6"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "20"
+     ],
+     "issue": "轉交關係企業推銷保險＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "11"
+     ],
+     "issue": "離職後長期保管不銷毀",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "11"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "6"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "6",
+       "rule",
+       "蒐集特種個人資料"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "8": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "b_hr",
+   "source": "eval\\pdfs\\b_hr_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 8,
+   "clauses_expected": 8,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "6"
+     ],
+     "issue": "未經同意蒐集病歷、犯罪前科（特種個資）",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "6",
+      "5",
+      "8",
+      "19",
+      "20"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "20"
+     ],
+     "issue": "轉交關係企業推銷保險＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "8",
+      "19"
+     ]
+    },
+    {
+     "seq": 6,
+     "accept": [
+      "11"
+     ],
+     "issue": "離職後長期保管不銷毀",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "11",
+      "3",
+      "5",
+      "8",
+      "19",
+      "20"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 1,
+     "art": "8",
+     "src": "ai",
+     "title": "未履行個人資料蒐集告知義務"
+    },
+    {
+     "seq": 3,
+     "art": "8",
+     "src": "ai",
+     "title": "未履行個人資料蒐集告知義務"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "20",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "3",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 6,
+     "art": "20",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 191.8,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "8"
+     ],
+     "final": [
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ]
+     ]
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "6"
+     ],
+     "ai": [
+      "5",
+      "6",
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "6",
+       "rule",
+       "蒐集特種個人資料"
+      ],
+      [
+       "5",
+       "ai",
+       "未說明蒐集目的與資料之正當合理關聯"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合第19條所列例外情形"
+      ],
+      [
+       "20",
+       "ai",
+       "未說明利用範圍是否符合特定目的"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "8"
+     ],
+     "final": [
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的或取得同意"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11"
+     ],
+     "ai": [
+      "3",
+      "5",
+      "8",
+      "11",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "11",
+       "rule",
+       "目的消失後仍保存資料"
+      ],
+      [
+       "3",
+       "ai",
+       "限制個人資料刪除權"
+      ],
+      [
+       "5",
+       "ai",
+       "未符合必要範圍原則"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的要件"
+      ],
+      [
+       "20",
+       "ai",
+       "超出處理範圍"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "8": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "c_cloud",
+   "source": "eval\\pdfs\\c_cloud_text.pdf",
+   "method": "text",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "21"
+     ],
+     "issue": "任意境外備份、國家不告知（國際傳輸）",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "21"
+     ]
+    },
+    {
+     "seq": 3,
+     "accept": [
+      "12"
+     ],
+     "issue": "入侵外流不通知",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "20"
+     ],
+     "issue": "揭露予第三方廣告商＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "c_cloud",
+   "source": "eval\\pdfs\\c_cloud_text.pdf",
+   "method": "text",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "21"
+     ],
+     "issue": "任意境外備份、國家不告知（國際傳輸）",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "21",
+      "8",
+      "5",
+      "19"
+     ]
+    },
+    {
+     "seq": 3,
+     "accept": [
+      "12"
+     ],
+     "issue": "入侵外流不通知",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "12"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "20"
+     ],
+     "issue": "揭露予第三方廣告商＝目的外利用",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "5",
+      "8",
+      "19"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 1,
+     "art": "8",
+     "src": "ai",
+     "title": "未履行個人資料蒐集告知義務"
+    },
+    {
+     "seq": 4,
+     "art": "3",
+     "src": "ai",
+     "title": "限制當事人請求刪除之權利"
+    },
+    {
+     "seq": 6,
+     "art": "3",
+     "src": "ai",
+     "title": "限制個人資料權利行使"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 5,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 5,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 5,
+     "art": "19",
+     "src": "ai"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 170.8,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "8"
+     ],
+     "final": [
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ]
+     ]
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": [
+      "8",
+      "21",
+      "5",
+      "19"
+     ],
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料處理地區告知義務"
+      ],
+      [
+       "5",
+       "ai",
+       "未符合特定目的必要範圍限制"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的要件"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "12"
+     ],
+     "ai": [
+      "12"
+     ],
+     "final": [
+      [
+       "12",
+       "rule",
+       "資料外洩不通知當事人"
+      ]
+     ]
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "3"
+     ],
+     "final": [
+      [
+       "3",
+       "ai",
+       "限制當事人請求刪除之權利"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "5",
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "提供第三人作原目的以外使用"
+      ],
+      [
+       "5",
+       "ai",
+       "逾越特定目的之必要範圍"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的之要求"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "3"
+     ],
+     "final": [
+      [
+       "3",
+       "ai",
+       "限制個人資料權利行使"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "d_holdout",
+   "source": "inline",
+   "method": "inline",
+   "mode": "rule",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "20"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "11",
+      "3"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "21"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": null,
+     "final_hit": true,
+     "final_articles": [
+      "21"
+     ]
+    }
+   ],
+   "false_positives": [],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 4,
+     "art": "3",
+     "src": "rule"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 0.0,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "20",
+       "rule",
+       "出售或讓與個人資料"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11",
+      "3"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "11",
+       "rule",
+       "拒絕當事人刪除請求"
+      ],
+      [
+       "3",
+       "rule",
+       "限制當事人行使權利"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": null,
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": null,
+     "final": []
+    }
+   }
+  },
+  {
+   "case": "d_holdout",
+   "source": "inline",
+   "method": "inline",
+   "mode": "rule+ai",
+   "clauses_found": 7,
+   "clauses_expected": 7,
+   "issues": [
+    {
+     "seq": 2,
+     "accept": [
+      "20"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "20",
+      "5",
+      "8",
+      "19"
+     ]
+    },
+    {
+     "seq": 4,
+     "accept": [
+      "11"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "11",
+      "3"
+     ]
+    },
+    {
+     "seq": 5,
+     "accept": [
+      "21"
+     ],
+     "issue": "",
+     "extraction_ok": true,
+     "retrieval_hit": true,
+     "rule_hit": true,
+     "ai_hit": true,
+     "final_hit": true,
+     "final_articles": [
+      "21"
+     ]
+    }
+   ],
+   "false_positives": [
+    {
+     "seq": 1,
+     "art": "8",
+     "src": "ai",
+     "title": "未告知個人資料蒐集目的及類別"
+    },
+    {
+     "seq": 6,
+     "art": "3",
+     "src": "ai",
+     "title": "可能違反個人資料請求刪除之權利"
+    }
+   ],
+   "off_target_on_issue_clauses": [
+    {
+     "seq": 2,
+     "art": "5",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "8",
+     "src": "ai"
+    },
+    {
+     "seq": 2,
+     "art": "19",
+     "src": "ai"
+    },
+    {
+     "seq": 4,
+     "art": "3",
+     "src": "rule"
+    }
+   ],
+   "ai_errors": 0,
+   "seconds": 178.2,
+   "per_clause": {
+    "1": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "8"
+     ],
+     "final": [
+      [
+       "8",
+       "ai",
+       "未告知個人資料蒐集目的及類別"
+      ]
+     ]
+    },
+    "2": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "20"
+     ],
+     "ai": [
+      "5",
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "20",
+       "rule",
+       "出售或讓與個人資料"
+      ],
+      [
+       "5",
+       "ai",
+       "違反個人資料處理目的必要性原則"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未取得個人資料處理同意"
+      ]
+     ]
+    },
+    "3": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [],
+     "final": []
+    },
+    "4": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "11",
+      "3"
+     ],
+     "ai": [
+      "3",
+      "11"
+     ],
+     "final": [
+      [
+       "11",
+       "rule",
+       "拒絕當事人刪除請求"
+      ],
+      [
+       "3",
+       "rule",
+       "限制當事人行使權利"
+      ]
+     ]
+    },
+    "5": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [
+      "21"
+     ],
+     "ai": [
+      "21"
+     ],
+     "final": [
+      [
+       "21",
+       "rule",
+       "個人資料國際傳輸"
+      ]
+     ]
+    },
+    "6": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "3"
+     ],
+     "final": [
+      [
+       "3",
+       "ai",
+       "可能違反個人資料請求刪除之權利"
+      ]
+     ]
+    },
+    "7": {
+     "cands": [
+      "3",
+      "5",
+      "6",
+      "8",
+      "11",
+      "12",
+      "19",
+      "20",
+      "21",
+      "27"
+     ],
+     "rule": [],
+     "ai": [
+      "5",
+      "8",
+      "19",
+      "20"
+     ],
+     "final": [
+      [
+       "5",
+       "ai",
+       "違反個人資料蒐集目的必要性原則"
+      ],
+      [
+       "8",
+       "ai",
+       "未履行個人資料蒐集告知義務"
+      ],
+      [
+       "19",
+       "ai",
+       "未符合特定目的及同意要件"
+      ],
+      [
+       "20",
+       "ai",
+       "未符合特定目的外利用之法定例外"
+      ]
+     ]
+    }
+   }
+  }
+ ]
+}
