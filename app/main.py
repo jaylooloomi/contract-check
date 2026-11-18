@@ -212,3 +212,9 @@ def review(fid: int, body: Review):
                  (fid, body.decision, body.note, now()))
     conn.commit()
     return {"ok": True}
+
+
+@app.get("/api/law/history")
+def law_history_api():
+    from app.laws import LAW_ID, law_history
+    return {"law_id": LAW_ID, "versions": law_history(conn, LAW_ID)}
