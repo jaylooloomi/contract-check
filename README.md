@@ -4,10 +4,21 @@
 
 > ⚠ 系統只提示可能的疑慮，**不判定是否違法**。所有合約都是虛構的，不含真實客戶資料。
 
+## 安裝（第一次）
+完整步驟、預期輸出與疑難排解見 **[docs/SETUP.md](docs/SETUP.md)**。簡版：
+```powershell
+py -3.12 -m venv .venv; .\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-dev.txt
+python -m playwright install chromium
+python scripts/check_env.py
+```
+一鍵驗收：`powershell -ExecutionPolicy Bypass -File scripts\run_acceptance.ps1`（紀錄寫到 `acceptance_logs\`）。
+
 ## 啟動（1 個指令）
 ```powershell
 py -3.12 -m uvicorn app.main:app --port 8000
 ```
+（已啟用 venv 時改用 `python -m uvicorn ...`）
 啟動後用瀏覽器打開 http://localhost:8000
 
 需要的環境：Python 3.12（FastAPI、PyMuPDF、PaddleOCR）。AI 輔助功能另外需要 Ollama 和 `qwen3:8b`；沒有也能用，系統會自動只跑規則檢查。
