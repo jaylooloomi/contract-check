@@ -96,6 +96,7 @@ macOS／Linux 有 `scripts/run_acceptance.sh`（未測試）。
 |---|---|
 | `ModuleNotFoundError: fastapi`（或其他） | 用錯 Python。啟用 venv，或改用 `.\.venv\Scripts\python.exe`；不要用裸的 `python`。 |
 | pip 找不到 `paddlepaddle==2.6.2` | Python 不是 3.12（或是 32 位元）。重建 3.12 64-bit venv。 |
+| `import paddle` 報 `No module named 'setuptools'` | Python 3.12 的 venv 預設不含 setuptools，paddle 執行期會用到。已列在 `requirements.txt`；舊版 clone 請 `python -m pip install setuptools==81.0.0`。 |
 | `numpy` 相關錯誤／`_ARRAY_API not found` | 裝到 numpy 2.x。`python -m pip install numpy==1.26.4`。 |
 | E2E 報 `Executable doesn't exist ... chromium` | 沒跑 `python -m playwright install chromium`（要在同一個 venv 裡跑）。 |
 | E2E 報 `server not ready` | port 8013 被佔用。設 `$env:CC_E2E_PORT=8023` 再跑。 |
