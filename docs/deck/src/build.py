@@ -11,7 +11,7 @@ WH = RGBColor(255, 255, 255)
 plt.rcParams['font.family'] = 'Microsoft JhengHei'
 
 # ---- chart (numbers from eval/report.md) ----
-lab = ['第一版\n關鍵字', '第一版\n關鍵字+AI', '第二版關鍵字\n(照考古題改過)', '新考卷\n關鍵字', '新考卷\nAI']
+lab = ['第一版\n關鍵字(規則)', '第一版\n關鍵字+AI', '第二版關鍵字\n(照考古題改過)', '新考卷\n關鍵字', '新考卷\nAI']
 rec = [2/9, 4/9, 9/9, 0, 0]; frac = ['2/9', '4/9', '9/9', '0/3', '0/3']; fp = [3, 8, 0, 0, 1]
 fig, ax = plt.subplots(figsize=(11, 5.8), dpi=200)
 cols = ['#93c5fd', '#93c5fd', '#2563eb', '#dc2626', '#dc2626']
@@ -19,11 +19,11 @@ ax.axvspan(2.5, 4.5, color='#fee2e2', alpha=.6, zorder=0)
 ax.bar(range(5), [r*100 for r in rec], color=cols, width=0.6, zorder=2)
 for i, (r, f, e) in enumerate(zip(rec, frac, fp)):
     ax.text(i, r*100+2.5, f'抓到 {f}', ha='center', fontsize=17, fontweight='bold', color='#1f2937')
-ax.set_xticks(range(5)); ax.set_xticklabels([f'{l}\n誤會 {e} 次' for l, e in zip(lab, fp)], fontsize=15)
+ax.set_xticks(range(5)); ax.set_xticklabels([f'{l}\n誤會(誤報) {e} 次' for l, e in zip(lab, fp)], fontsize=15)
 ax.set_ylim(0, 120); ax.set_yticks([0, 50, 100]); ax.set_yticklabels(['0%', '50%', '100%'], fontsize=13)
-ax.annotate('只會考古題：\n練習過的全對', xy=(1.75, 100), xytext=(0.5, 88), fontsize=15, color='#2563eb',
+ax.annotate('只會考古題（過度擬合）：\n練習過的全對', xy=(1.75, 100), xytext=(0.5, 88), fontsize=15, color='#2563eb',
             ha='center', fontweight='bold', arrowprops=dict(arrowstyle='->', color='#2563eb', lw=1.8))
-ax.text(3.5, 55, '新考卷：換個說法\n就全部沒抓到', ha='center', fontsize=18, color='#dc2626', fontweight='bold')
+ax.text(3.5, 55, '新考卷（盲測）：換個說法\n就全部沒抓到', ha='center', fontsize=18, color='#dc2626', fontweight='bold')
 for sp in ['top', 'right', 'left']: ax.spines[sp].set_visible(False)
 ax.set_ylabel('抓到幾成', fontsize=14); plt.tight_layout(); plt.savefig('img/eval.png'); plt.close()
 

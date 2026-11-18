@@ -18,24 +18,24 @@ th{background:#eee}
 <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#555"/></marker></defs>
 <style>.r{fill:#dbeafe;stroke:#2563eb;stroke-width:2}.p{fill:#fff;stroke:#999;stroke-width:2;stroke-dasharray:6 4}.t{font-size:16px;font-weight:bold;text-anchor:middle}.s{font-size:13px;fill:#444;text-anchor:middle}.l{stroke:#555;stroke-width:2;fill:none;marker-end:url(#a)}.lane{font-size:15px;font-weight:bold;fill:#2563eb}</style>
 <text x="20" y="35" class="lane">① 先把法律存起來（只做一次）</text>
-<rect x="20" y="50" width="220" height="80" rx="8" class="r"/><text x="130" y="82" class="t">政府的法律網站</text><text x="130" y="105" class="s">把個資法整份抓下來</text>
+<rect x="20" y="50" width="220" height="80" rx="8" class="r"/><text x="130" y="82" class="t">全國法規資料庫</text><text x="130" y="105" class="s">把個資法整份抓下來</text>
 <rect x="300" y="50" width="220" height="80" rx="8" class="r"/><text x="410" y="82" class="t">拆成一條一條</text><text x="410" y="105" class="s">第幾條＋內容</text>
 <path d="M240 90H298" class="l"/>
-<rect x="780" y="50" width="300" height="80" rx="8" class="r"/><text x="930" y="80" class="t">資料庫（記事本）</text><text x="930" y="103" class="s">存法律、合約、檢查結果</text><text x="930" y="120" class="s">可以快速找字</text>
+<rect x="780" y="50" width="300" height="80" rx="8" class="r"/><text x="930" y="80" class="t">資料庫（SQLite）</text><text x="930" y="103" class="s">存法律、合約、檢查結果</text><text x="930" y="120" class="s">快速找字（全文檢索 FTS5）</text>
 <path d="M520 90H778" class="l"/>
 <text x="20" y="195" class="lane">② 每份合約進來都檢查一次</text>
 <rect x="20" y="210" width="190" height="80" rx="8" class="r"/><text x="115" y="242" class="t">上傳 PDF</text><text x="115" y="265" class="s">法務把合約放上來</text>
 <rect x="250" y="210" width="190" height="80" rx="8" class="r"/><text x="345" y="242" class="t">讀出文字</text><text x="345" y="265" class="s">電腦檔直接讀</text>
-<rect x="250" y="320" width="190" height="70" rx="8" class="r"/><text x="345" y="350" class="t">看圖認字</text><text x="345" y="372" class="s">掃描檔要先認字</text>
+<rect x="250" y="320" width="190" height="70" rx="8" class="r"/><text x="345" y="350" class="t">看圖認字（OCR）</text><text x="345" y="372" class="s">PaddleOCR</text>
 <path d="M345 290V318" class="l"/>
 <rect x="480" y="210" width="190" height="80" rx="8" class="r"/><text x="575" y="242" class="t">切成條款</text><text x="575" y="265" class="s">照「第幾條」分開</text>
 <rect x="710" y="210" width="190" height="80" rx="8" class="r"/><text x="805" y="242" class="t">找對應的法律</text><text x="805" y="265" class="s">用關鍵字去找</text>
 <path d="M210 250H248M440 250H478M670 250H708" class="l"/>
 <path d="M930 130V170H805V208" class="l"/>
-<rect x="710" y="330" width="190" height="80" rx="8" class="r"/><text x="805" y="362" class="t">關鍵字比對</text><text x="805" y="385" class="s">看到危險字眼就標出來</text>
-<rect x="930" y="330" width="150" height="80" rx="8" class="r"/><text x="1005" y="358" class="t">AI 讀意思</text><text x="1005" y="380" class="s">在自己電腦上跑</text><text x="1005" y="398" class="s">（可換 Claude）</text>
+<rect x="710" y="330" width="190" height="80" rx="8" class="r"/><text x="805" y="362" class="t">關鍵字比對（規則）</text><text x="805" y="385" class="s">看到危險字眼就標出來</text>
+<rect x="930" y="330" width="150" height="80" rx="8" class="r"/><text x="1005" y="358" class="t">AI 讀意思（LLM）</text><text x="1005" y="380" class="s">本機 qwen3:8b</text><text x="1005" y="398" class="s">（可換 Claude）</text>
 <path d="M805 290V328" class="l"/><path d="M900 370H928" class="l"/>
-<rect x="480" y="330" width="190" height="80" rx="8" class="r"/><text x="575" y="358" class="t">檢查法條是真的</text><text x="575" y="378" class="s">AI 說的第幾條</text><text x="575" y="395" class="s">必須真的存在</text>
+<rect x="480" y="330" width="190" height="80" rx="8" class="r"/><text x="575" y="358" class="t">引用驗證</text><text x="575" y="378" class="s">AI 說的第幾條</text><text x="575" y="395" class="s">必須真的存在</text>
 <path d="M708 370H672" class="l"/>
 <text x="20" y="455" class="lane">③ 最後由人決定</text>
 <rect x="250" y="470" width="420" height="70" rx="8" class="r"/><text x="460" y="500" class="t">法務檢查畫面</text><text x="460" y="522" class="s">看合約和法律原文，按「是問題／不是」</text>
