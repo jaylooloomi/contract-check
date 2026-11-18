@@ -3,6 +3,7 @@ import json
 import os
 import shutil
 import tempfile
+import urllib.request
 from datetime import datetime
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
@@ -28,12 +29,23 @@ AI_DOWN_DETAIL = "AI 服務未啟動，僅完成規則檢查"
 PD_WORDS = ("個人資料", "個資", "姓名", "電話", "地址", "病歷", "帳號", "資料")
 
 
-def probe_ai(timeout=3) -> bool:
+AI_NO_MODEL_DETAIL = "AI 服務有開，但找不到模型 {model}，僅完成規則檢查"
+
+
+def probe_ai(timeout=3):
+    """回傳 (可用?, 原因)。服務要能連上，而且模型真的存在，才算可用。"""
+    from app.check import OLLAMA_MODEL
     try:
         with urllib.request.urlopen(AI_PROBE_URL, timeout=timeout) as r:
-            return r.status == 200
+            if r.status != 200:
+                return False, AI_DOWN_DETAIL
+            names = {m.get("name", "") for m in json.loads(r.read().decode("utf-8")).get("models", [])}
     except Exception:
-        return False
+        return False, AI_DOWN_DETAIL
+    want = OLLAMA_MODEL if ":" in OLLAMA_MODEL else OLLAMA_MODEL + ":latest"
+    if want not in names and OLLAMA_MODEL not in names:
+        return False, AI_NO_MODEL_DETAIL.format(model=OLLAMA_MODEL)
+    return True, None
 
 
 def law_version_text() -> str | None:
@@ -49,10 +61,12 @@ def run_check(cid: int, use_ai: bool) -> dict:
     """呼叫 check_contract 並回傳明確狀態。相容 check_contract 回傳 int 或
     {"finding_count", "status": {"ai": ...}}（dict 版若有 status.ai 就以它為準）。"""
     ai_status, ai_detail = "not_requested", None
-    if use_ai and not probe_ai():
-        use_ai, ai_status, ai_detail = False, "failed", AI_DOWN_DETAIL
-    elif use_ai:
-        ai_status = "ok"
+    if use_ai:
+        ok, why = probe_ai()
+        if ok:
+            ai_status = "ok"
+        else:
+            use_ai, ai_status, ai_detail = False, "failed", why
     res = check_contract(conn, cid, use_ai=use_ai)
     if isinstance(res, dict):
         n = int(res.get("finding_count", 0))
@@ -63,6 +77,11 @@ def run_check(cid: int, use_ai: bool) -> dict:
                 ai_status, ai_detail = st.get("status", ai_status), st.get("detail", ai_detail)
             elif isinstance(st, str):
                 ai_status, ai_detail = st, status.get("ai_detail", ai_detail)
+                errs, total = status.get("ai_errors", 0), status.get("clauses_checked", 0)
+                if st == "failed" and not ai_detail:
+                    ai_detail = f"AI 呼叫全部失敗（逾時或出錯，{errs}/{total} 條），僅完成規則檢查"
+                elif st == "partial" and not ai_detail:
+                    ai_detail = f"AI 有 {errs}/{total} 條未完成（逾時或出錯），這些條款只有規則檢查"
     else:
         n = int(res)
     version = law_version_text()

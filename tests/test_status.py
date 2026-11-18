@@ -46,7 +46,7 @@ def test_migration_idempotent(m):
 
 
 def test_ai_probe_fails_marks_failed(m, client, monkeypatch):
-    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: False)
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (False, m.AI_DOWN_DETAIL))
     calls = []
     real = m.check_contract
     monkeypatch.setattr(m, "check_contract", lambda conn, cid, use_ai=True: calls.append(use_ai) or real(conn, cid, use_ai=use_ai))
@@ -60,16 +60,58 @@ def test_ai_probe_fails_marks_failed(m, client, monkeypatch):
 
 
 def test_ai_probe_ok(m, client, monkeypatch):
-    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: True)
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (True, None))
     seen = []
     real = m.check_contract
-    monkeypatch.setattr(m, "check_contract", lambda conn, cid, use_ai=True: seen.append(use_ai) or real(conn, cid, use_ai=False))
+    def fake(conn, cid, use_ai=True):
+        seen.append(use_ai)
+        r = real(conn, cid, use_ai=False)
+        return {"finding_count": r["finding_count"], "status": {"ai": "ok", "ai_errors": 0, "clauses_checked": 5}}
+    monkeypatch.setattr(m, "check_contract", fake)
     d = upload(client, True)
     assert seen == [True] and d["ai_status"] == "ok" and d["ai_detail"] is None
 
 
+class _Resp:
+    def __init__(self, body, status=200): self.body, self.status = body, status
+    def read(self): return self.body
+    def __enter__(self): return self
+    def __exit__(self, *a): return False
+
+
+def test_probe_model_missing_is_failed(m, monkeypatch):
+    """服務有開但模型不存在 → 不能當成 AI 可用（面試官回饋的漏洞）"""
+    import json as _j
+    monkeypatch.setattr(m.urllib.request, "urlopen", lambda url, timeout=3: _Resp(_j.dumps({"models": [{"name": "llama3:8b"}]}).encode()))
+    ok, why = m.probe_ai()
+    assert ok is False and "找不到模型" in why
+    monkeypatch.setattr(m.urllib.request, "urlopen", lambda url, timeout=3: _Resp(_j.dumps({"models": [{"name": "qwen3:8b"}]}).encode()))
+    assert m.probe_ai() == (True, None)
+
+
+def test_ai_timeout_during_run_not_shown_as_success(m, client, monkeypatch):
+    """探測通過、但跑到一半逾時 → 狀態必須是 failed／partial，不能是 ok"""
+    import app.check as chk
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (True, None))
+    def slow(prompt):
+        raise TimeoutError("timed out")
+    monkeypatch.setattr(chk, "_call_ollama", slow)
+    monkeypatch.setattr(m, "check_contract", chk.check_contract)
+    d = upload(client, True)
+    assert d["ai_status"] == "failed" and "逾時或出錯" in d["ai_detail"]
+    calls = {"n": 0}
+    def flaky(prompt):
+        calls["n"] += 1
+        if calls["n"] % 2:
+            raise TimeoutError("timed out")
+        return '{"judgments":[]}'
+    monkeypatch.setattr(chk, "_call_ollama", flaky)
+    d = upload(client, True)
+    assert d["ai_status"] == "partial" and "未完成" in d["ai_detail"]
+
+
 def test_dict_return_uses_status_ai(m, client, monkeypatch):
-    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: True)
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (True, None))
     monkeypatch.setattr(m, "check_contract", lambda conn, cid, use_ai=True:
                         {"finding_count": 0, "status": {"ai": "partial", "ai_detail": "2 條逾時"}})
     d = upload(client, True)
@@ -88,12 +130,12 @@ def test_not_requested_and_snapshot(m, client):
 def test_zero_findings_distinguishes(m, client, monkeypatch):
     """0 筆疑慮：AI 失敗時要有待人工確認的條款；AI 成功時沒有。"""
     monkeypatch.setattr(m, "check_contract", lambda conn, cid, use_ai=True: 0)
-    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: False)
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (False, m.AI_DOWN_DETAIL))
     bad = client.get(f"/api/contracts/{upload(client, True)['contract_id']}").json()
     assert bad["ai_status"] == "failed" and not bad["findings"]
     nr = [c for c in bad["clauses"] if c["needs_review"]]
     assert nr and all("AI 未完成" in c["needs_review_reason"] for c in nr)
-    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: True)
+    monkeypatch.setattr(m, "probe_ai", lambda timeout=3: (True, None))
     good = client.get(f"/api/contracts/{upload(client, True)['contract_id']}").json()
     assert good["ai_status"] == "ok" and not any(c["needs_review"] for c in good["clauses"])
 

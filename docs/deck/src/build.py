@@ -11,19 +11,18 @@ WH = RGBColor(255, 255, 255)
 plt.rcParams['font.family'] = 'Microsoft JhengHei'
 
 # ---- chart (numbers from eval/report.md) ----
-lab = ['第一版\n關鍵字(規則)', '第一版\n關鍵字+AI', '第二版關鍵字\n(照考古題改過)', '新考卷\n關鍵字', '新考卷\nAI']
-rec = [2/9, 4/9, 9/9, 0, 0]; frac = ['2/9', '4/9', '9/9', '0/3', '0/3']; fp = [3, 8, 0, 0, 1]
+lab = ['修正前\n練習卷', '修正前\n盲測 D', '修正後\nD(已變練習卷)', '修正後 新盲測 E\n只用規則', '修正後 新盲測 E\n規則+AI']
+rec = [9/9, 0, 3/3, 6/10, 10/10]; frac = ['9/9', '0/3', '3/3', '6/10', '10/10']; fp = [0, 0, 0, 0, 10]
 fig, ax = plt.subplots(figsize=(11, 5.8), dpi=200)
-cols = ['#c7dcf7', '#c7dcf7', '#0071e3', '#ff3b30', '#ff3b30']
-ax.axvspan(2.5, 4.5, color='#fff1f0', alpha=1, zorder=0)
+cols = ['#c7dcf7', '#ff3b30', '#c7dcf7', '#0071e3', '#7fb6f0']
+ax.axvspan(2.5, 4.5, color='#eef5ff', alpha=1, zorder=0)
 ax.bar(range(5), [r*100 for r in rec], color=cols, width=0.6, zorder=2)
 for i, (r, f, e) in enumerate(zip(rec, frac, fp)):
     ax.text(i, r*100+2.5, f'抓到 {f}', ha='center', fontsize=17, fontweight='bold', color='#1d1d1f')
 ax.set_xticks(range(5)); ax.set_xticklabels([f'{l}\n誤會(誤報) {e} 次' for l, e in zip(lab, fp)], fontsize=15)
-ax.set_ylim(0, 120); ax.set_yticks([0, 50, 100]); ax.set_yticklabels(['0%', '50%', '100%'], fontsize=13)
-ax.annotate('只會考古題（過度擬合）：\n練習過的全對', xy=(1.75, 100), xytext=(0.5, 88), fontsize=15, color='#0071e3',
-            ha='center', fontweight='bold', arrowprops=dict(arrowstyle='->', color='#0071e3', lw=1.8))
-ax.text(3.5, 55, '新考卷（盲測）：換個說法\n就全部沒抓到', ha='center', fontsize=18, color='#ff3b30', fontweight='bold')
+ax.set_ylim(0, 125); ax.set_yticks([0, 50, 100]); ax.set_yticklabels(['0%', '50%', '100%'], fontsize=13)
+ax.text(1, 18, '修正前：換個說法\n就全部沒抓到', ha='center', fontsize=15, color='#ff3b30', fontweight='bold')
+ax.text(3.5, 117, '真正的新考卷（修正前就鎖定）', ha='center', fontsize=15, color='#0071e3', fontweight='bold')
 for sp in ['top', 'right', 'left']: ax.spines[sp].set_visible(False)
 ax.set_ylabel('抓到幾成', fontsize=14); plt.tight_layout(); plt.savefig('img/eval.png'); plt.close()
 
