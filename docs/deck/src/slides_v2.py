@@ -136,4 +136,14 @@ for i, (t, d) in enumerate(tl):
 tb(s, 0.9, 5.8, 12, 0.6, '20:05 發現 AI 助手的報告是假的 → 丟掉重做', 20, True, RGBColor(0xff, 0x3b, 0x30))
 notes(s, N[8])
 
+# 備註欄以 講稿_v2.md 的「## P1」~「## P10」為準（改講稿只改 md）
+import re as _re
+_md = open('講稿_v2.md', encoding='utf-8').read()
+_secs = {int(m.group(1)): m.group(2) for m in _re.finditer(r'^## P(\d+)[^\n]*\n(.*?)(?=^## |\Z)', _md, _re.S | _re.M)}
+for _i, _sl in enumerate(prs.slides, 1):
+    if _i in _secs:
+        _t = '\n'.join(l.strip() for l in _secs[_i].strip().splitlines() if l.strip() and not l.startswith('---'))
+        _sl.notes_slide.notes_text_frame.text = _t
+print('notes from md:', sorted(_secs))
+
 prs.save('合約外規檢查_簡報.pptx'); print('saved v2')
