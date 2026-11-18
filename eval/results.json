@@ -1,0 +1,257 @@
+[
+ {
+  "contract": "a_marketing",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [],
+  "issues": 3,
+  "misses": [
+   2,
+   4,
+   6
+  ],
+  "false_positives": [
+   {
+    "seq": 3,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "a_marketing",
+  "pdf": "text",
+  "mode": "rule+ai",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [
+   6
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   4
+  ],
+  "false_positives": [
+   {
+    "seq": 2,
+    "src": "ai",
+    "art": "20-1",
+    "title": "個人資料安全維護不足"
+   },
+   {
+    "seq": 3,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 193.2
+ },
+ {
+  "contract": "b_hr",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 8,
+  "clauses_expected": 8,
+  "hits": [
+   4
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   6
+  ],
+  "false_positives": [
+   {
+    "seq": 3,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "b_hr",
+  "pdf": "text",
+  "mode": "rule+ai",
+  "method": "text",
+  "clauses": 8,
+  "clauses_expected": 8,
+  "hits": [
+   4
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   6
+  ],
+  "false_positives": [
+   {
+    "seq": 3,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   },
+   {
+    "seq": 4,
+    "src": "ai",
+    "art": "20-1",
+    "title": "個人資料安全維護不足"
+   },
+   {
+    "seq": 7,
+    "src": "ai",
+    "art": "12",
+    "title": "通知期限是否符合即時要求"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 143.6
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [
+   5
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   3
+  ],
+  "false_positives": [
+   {
+    "seq": 6,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "text",
+  "mode": "rule+ai",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [
+   3,
+   5
+  ],
+  "issues": 3,
+  "misses": [
+   2
+  ],
+  "false_positives": [
+   {
+    "seq": 2,
+    "src": "ai",
+    "art": "12",
+    "title": "個人資料跨境儲存未通知義務"
+   },
+   {
+    "seq": 5,
+    "src": "ai",
+    "art": "42",
+    "title": "AI 提示疑慮"
+   },
+   {
+    "seq": 6,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 137.1
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "scan",
+  "mode": "rule",
+  "method": "ocr",
+  "clauses": 6,
+  "clauses_expected": 7,
+  "hits": [
+   5
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   3
+  ],
+  "false_positives": [
+   {
+    "seq": 4,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 12.0
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "scan",
+  "mode": "rule+ai",
+  "method": "ocr",
+  "clauses": 6,
+  "clauses_expected": 7,
+  "hits": [
+   5
+  ],
+  "issues": 3,
+  "misses": [
+   2,
+   3
+  ],
+  "false_positives": [
+   {
+    "seq": 4,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   },
+   {
+    "seq": 4,
+    "src": "ai",
+    "art": "10",
+    "title": "AI 提示疑慮"
+   },
+   {
+    "seq": 5,
+    "src": "ai",
+    "art": "10",
+    "title": "AI 提示疑慮"
+   },
+   {
+    "seq": 6,
+    "src": "ai",
+    "art": "20-1",
+    "title": "安全措施未明確符合法定義務"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 115.8
+ }
+]

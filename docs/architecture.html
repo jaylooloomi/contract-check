@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>合約外規檢查架構</title>
+<style>
+body{font-family:"Microsoft JhengHei",system-ui,sans-serif;background:#f7f7f5;color:#222;margin:0;padding:24px}
+h1{font-size:22px;margin:0 0 4px}.sub{color:#666;margin:0 0 20px}
+.legend span{display:inline-block;margin-right:16px;font-size:14px}
+.box{display:inline-block;width:14px;height:14px;vertical-align:middle;margin-right:4px;border-radius:3px}
+svg{width:100%;max-width:1100px;height:auto;background:#fff;border:1px solid #ddd;border-radius:8px}
+table{border-collapse:collapse;margin-top:20px;max-width:1100px;width:100%;background:#fff}
+td,th{border:1px solid #ddd;padding:8px 10px;font-size:14px;text-align:left;vertical-align:top}
+th{background:#eee}
+</style></head><body>
+<h1>合約外規檢查：系統架構</h1>
+<p class="sub">一句話：把法條存進資料庫，把合約拆成條款，找出每條相關的法條，標出可能的疑慮，最後交給法務人員確認。</p>
+<p class="legend"><span><i class="box" style="background:#dbeafe;border:2px solid #2563eb"></i>本次已實作</span><span><i class="box" style="background:#fff;border:2px dashed #999"></i>只做示意（之後再做）</span></p>
+<svg viewBox="0 0 1100 560" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei,sans-serif">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#555"/></marker></defs>
+<style>.r{fill:#dbeafe;stroke:#2563eb;stroke-width:2}.p{fill:#fff;stroke:#999;stroke-width:2;stroke-dasharray:6 4}.t{font-size:16px;font-weight:bold;text-anchor:middle}.s{font-size:13px;fill:#444;text-anchor:middle}.l{stroke:#555;stroke-width:2;fill:none;marker-end:url(#a)}.lane{font-size:15px;font-weight:bold;fill:#2563eb}</style>
+<text x="20" y="35" class="lane">① 先把法律存起來（只做一次）</text>
+<rect x="20" y="50" width="220" height="80" rx="8" class="r"/><text x="130" y="82" class="t">政府的法律網站</text><text x="130" y="105" class="s">把個資法整份抓下來</text>
+<rect x="300" y="50" width="220" height="80" rx="8" class="r"/><text x="410" y="82" class="t">拆成一條一條</text><text x="410" y="105" class="s">第幾條＋內容</text>
+<path d="M240 90H298" class="l"/>
+<rect x="780" y="50" width="300" height="80" rx="8" class="r"/><text x="930" y="80" class="t">資料庫（記事本）</text><text x="930" y="103" class="s">存法律、合約、檢查結果</text><text x="930" y="120" class="s">可以快速找字</text>
+<path d="M520 90H778" class="l"/>
+<text x="20" y="195" class="lane">② 每份合約進來都檢查一次</text>
+<rect x="20" y="210" width="190" height="80" rx="8" class="r"/><text x="115" y="242" class="t">上傳 PDF</text><text x="115" y="265" class="s">法務把合約放上來</text>
+<rect x="250" y="210" width="190" height="80" rx="8" class="r"/><text x="345" y="242" class="t">讀出文字</text><text x="345" y="265" class="s">電腦檔直接讀</text>
+<rect x="250" y="320" width="190" height="70" rx="8" class="r"/><text x="345" y="350" class="t">看圖認字</text><text x="345" y="372" class="s">掃描檔要先認字</text>
+<path d="M345 290V318" class="l"/>
+<rect x="480" y="210" width="190" height="80" rx="8" class="r"/><text x="575" y="242" class="t">切成條款</text><text x="575" y="265" class="s">照「第幾條」分開</text>
+<rect x="710" y="210" width="190" height="80" rx="8" class="r"/><text x="805" y="242" class="t">找對應的法律</text><text x="805" y="265" class="s">用關鍵字去找</text>
+<path d="M210 250H248M440 250H478M670 250H708" class="l"/>
+<path d="M930 130V170H805V208" class="l"/>
+<rect x="710" y="330" width="190" height="80" rx="8" class="r"/><text x="805" y="362" class="t">關鍵字比對</text><text x="805" y="385" class="s">看到危險字眼就標出來</text>
+<rect x="930" y="330" width="150" height="80" rx="8" class="r"/><text x="1005" y="358" class="t">AI 讀意思</text><text x="1005" y="380" class="s">在自己電腦上跑</text><text x="1005" y="398" class="s">（可換 Claude）</text>
+<path d="M805 290V328" class="l"/><path d="M900 370H928" class="l"/>
+<rect x="480" y="330" width="190" height="80" rx="8" class="r"/><text x="575" y="358" class="t">檢查法條是真的</text><text x="575" y="378" class="s">AI 說的第幾條</text><text x="575" y="395" class="s">必須真的存在</text>
+<path d="M708 370H672" class="l"/>
+<text x="20" y="455" class="lane">③ 最後由人決定</text>
+<rect x="250" y="470" width="420" height="70" rx="8" class="r"/><text x="460" y="500" class="t">法務檢查畫面</text><text x="460" y="522" class="s">看合約和法律原文，按「是問題／不是」</text>
+<path d="M575 410V468" class="l"/>
+<text x="720" y="500" font-size="13" fill="#b91c1c">※ 電腦只負責提醒，</text><text x="720" y="520" font-size="13" fill="#b91c1c">有沒有違法由人決定</text>
+</svg>
+<table>
+<tr><th>環節</th><th>白話說明</th><th>本次狀態</th></tr>
+<tr><td>法條取得</td><td>從法務部「全國法規資料庫」抓取個資法全文網頁，拆成一條一條存起來（保留原始網頁）</td><td>已實作</td></tr>
+<tr><td>文字擷取</td><td>PDF 本身有文字就直接讀；掃描圖檔要 OCR</td><td>已實作（PaddleOCR，約 1 秒／頁）</td></tr>
+<tr><td>相關法條檢索</td><td>用關鍵字（如「個人資料」「第三人」「保存期限」）找對應法條</td><td>已實作</td></tr>
+<tr><td>疑慮判斷</td><td>規則抓固定說法；AI 補充語意判斷，但結果要由人複核</td><td>已實作（AI 用本機模型；正式版建議換更強的模型）</td></tr>
+<tr><td>防 AI 亂講</td><td>每個疑慮必須附條號，程式檢查條號是否真的存在</td><td>已實作</td></tr>
+<tr><td>人員複核</td><td>法務人員逐條確認或駁回，留下紀錄</td><td>已實作</td></tr>
+</table>
+</body></html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>合約外規檢查｜精靈引導</title>
+<style>
+:root{--a:#2563eb;--a2:#dbeafe;--ok:#16a34a;--no:#6b7280;--bg:#f5f7fb;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--cl:#fef9c3;--lw:#f1f5f9;--er:#b91c1c}
+@media (prefers-color-scheme:dark){:root{--a:#3b82f6;--a2:#1e3a8a;--ok:#22c55e;--no:#9ca3af;--bg:#0b1120;--card:#111827;--tx:#e5e7eb;--mu:#94a3b8;--bd:#1f2937;--cl:#3a3412;--lw:#1e293b;--er:#f87171}}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft JhengHei",system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.6}
+header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;padding:14px 20px;max-width:880px;margin:auto}
+header b{font-size:17px}
+.vs{font-size:13px;color:var(--mu)}.vs a{color:var(--mu);margin-left:6px;text-decoration:none;padding:2px 8px;border-radius:10px}.vs a.on{background:var(--a);color:#fff}
+main{max-width:880px;margin:auto;padding:0 20px 40px}
+.stepper{display:flex;gap:6px;list-style:none;padding:0;margin:8px 0 4px}
+.stepper li{flex:1;text-align:center;font-size:14px;color:var(--mu);padding:8px 2px;border-bottom:3px solid var(--bd);white-space:nowrap}
+.stepper li.done{color:var(--ok);border-color:var(--ok)}
+.stepper li[aria-current=step]{color:var(--a);border-color:var(--a);font-weight:bold}
+.disc{font-size:12px;color:var(--mu);margin:4px 0 18px;text-align:center}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:28px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.drop{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:240px;border:2px dashed var(--bd);border-radius:14px;cursor:pointer;text-align:center;padding:20px;transition:.15s}
+.drop:hover,.drop.over{border-color:var(--a);background:var(--a2)}
+.drop .ic{font-size:48px;line-height:1}.drop .big{font-size:20px;font-weight:bold}.drop .fn{color:var(--a);font-weight:bold;word-break:break-all}
+.row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:20px}
+.sw{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:15px}
+.sw input{appearance:none;width:42px;height:24px;border-radius:12px;background:var(--bd);position:relative;cursor:pointer;margin:0;transition:.15s}
+.sw input::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.15s}
+.sw input:checked{background:var(--a)}.sw input:checked::after{left:21px}
+.tip{display:inline-block;width:20px;height:20px;border-radius:50%;border:1px solid var(--mu);color:var(--mu);font-size:12px;text-align:center;line-height:18px;cursor:help}
+.btn{border:0;border-radius:10px;padding:12px 22px;font-size:16px;cursor:pointer;background:var(--a);color:#fff;font-family:inherit}
+.btn:disabled{opacity:.45;cursor:default}.btn.o{background:transparent;color:var(--tx);border:1px solid var(--bd)}
+.btn.ok{background:var(--ok)}.btn.no{background:var(--no)}.btn.sm{padding:6px 12px;font-size:14px}
+.big2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}.big2 .btn{padding:16px;font-size:18px}
+.spin{width:56px;height:56px;border:5px solid var(--a2);border-top-color:var(--a);border-radius:50%;animation:r 1s linear infinite;margin:6px auto 14px}
+@keyframes r{to{transform:rotate(360deg)}}
+.stages{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;list-style:none;padding:0;margin:14px 0}
+.stages li{padding:4px 12px;border-radius:12px;background:var(--lw);color:var(--mu);font-size:14px}
+.stages li.on{background:var(--a2);color:var(--a);font-weight:bold}.stages li.ok{color:var(--ok)}
+.center{text-align:center}.mu{color:var(--mu);font-size:13px}.err{color:var(--er)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.bar{height:6px;background:var(--bd);border-radius:3px;overflow:hidden;margin-bottom:16px}.bar i{display:block;height:100%;background:var(--a);transition:width .3s}
+.chip{display:inline-block;font-size:12px;padding:1px 10px;border-radius:10px;margin-right:6px;background:var(--lw);color:var(--mu)}
+.chip.rule{background:#e0e7ff;color:#3730a3}.chip.ai{background:#dcfce7;color:#166534}
+.ttl{font-size:20px;font-weight:bold;margin:10px 0}
+.clause{background:var(--cl);border-radius:10px;padding:12px 14px;font-size:15px;white-space:pre-wrap;word-break:break-word}
+.law{background:var(--lw);border-radius:10px;padding:12px 14px;font-size:14px;white-space:pre-wrap;margin-top:8px;word-break:break-word}
+.lt{background:none;border:0;color:var(--a);cursor:pointer;padding:6px 0;font-size:14px;font-family:inherit}
+textarea{width:100%;min-height:64px;font:inherit;font-size:15px;border:1px solid var(--bd);border-radius:10px;padding:8px;background:var(--card);color:var(--tx);margin-top:12px}
+.nav{display:flex;justify-content:space-between;margin-top:14px;align-items:center}
+kbd{border:1px solid var(--bd);border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:12px}
+.stats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.stats div{background:var(--lw);border-radius:10px;padding:10px 16px;text-align:center;min-width:78px}.stats b{display:block;font-size:24px}
+.stats .s-ok b{color:var(--ok)}.stats .s-no b{color:var(--no)}
+.ok-ic{font-size:52px;color:var(--ok);line-height:1}
+.hl{list-style:none;padding:0;margin:0}
+.hl li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;margin-top:8px;cursor:pointer}
+.hl li:hover,.hl li:focus{border-color:var(--a);background:var(--a2);outline:none}
+.hl .nm{font-weight:bold;word-break:break-all}.hl .meta{font-size:12px;color:var(--mu);white-space:nowrap}
+@media (max-width:600px){header,main{padding-left:12px;padding-right:12px}.card{padding:18px}.stepper li{font-size:12px}.big2 .btn{font-size:16px}}
+</style><link rel="stylesheet" href="/static/apple.css"></head><body>
+<header><b>合約外規檢查</b>
+<span class="vs" data-testid="version-switcher"><a href="/" title="分割檢視">A</a><a href="/v/b" title="工作佇列">B</a><a href="/v/c" title="全文標註">C</a><a href="/v/wizard" class="on" title="精靈引導">D</a></span></header>
+<main>
+<ol class="stepper" id="stepper">
+  <li data-testid="wizard-step" data-step="1">① 上傳</li><li data-testid="wizard-step" data-step="2">② 檢查</li>
+  <li data-testid="wizard-step" data-step="3">③ 複核</li><li data-testid="wizard-step" data-step="4">④ 完成</li>
+</ol>
+<p class="disc" data-testid="disclaimer">※ 列出的是「可能疑慮」，供法務複核，不代表違法判定。<span id="law" class="mu"></span></p>
+
+<section id="s1" class="card">
+  <label class="drop" id="drop" data-testid="dropzone" tabindex="0" title="拖入或點擊選擇合約 PDF（文字版或掃描版）">
+    <span class="ic">📄</span><span class="big">拖入合約 PDF</span><span class="mu">或點擊選檔</span><span class="fn" id="fn"></span>
+    <input type="file" id="file" accept=".pdf" data-testid="upload-input" hidden>
+  </label>
+  <div class="row">
+    <span><label class="sw"><input type="checkbox" id="ai" data-testid="ai-checkbox"> AI 輔助</label>
+      <span class="tip" title="加上 AI 語意檢查，可抓出規則漏掉的寫法；約多 30 秒。AI 結果會標「AI」。">ⓘ</span></span>
+    <button class="btn" id="go" data-testid="submit-button" disabled title="開始檢查">▶ 檢查</button>
+  </div>
+</section>
+<section class="card" id="histBox" style="margin-top:16px" hidden>
+  <div class="top"><b>🕘 最近檢查過<span class="mu">（點了直接看結果，不用重跑）</span></b><a class="mu" href="/history" data-testid="history-all">全部 →</a></div>
+  <ul class="hl" data-testid="history-list" id="hist"></ul>
+</section>
+
+<section id="s2" class="card center" hidden>
+  <div class="spin" id="spin"></div>
+  <div class="ttl" id="s2t">檢查中… <span id="sec">0</span> 秒</div>
+  <ul class="stages" id="stages"><li>讀取</li><li>切條款</li><li>比對法條</li></ul>
+  <p class="mu" id="s2n" title="伺服器一次完成全部步驟，這裡依經過時間估計目前階段">階段為依時間估計 ⓘ</p>
+  <p data-testid="status-message" id="msg" role="status" aria-live="polite"></p>
+  <div id="errActs" hidden><button class="btn" data-testid="retry-button" id="retry">↻ 重試</button>
+    <button class="btn o" data-testid="restart-button" id="restart1">⟲ 重新上傳</button></div>
+</section>
+
+<section id="s3" class="card" hidden>
+  <div class="top"><span class="mu" id="cname"></span>
+    <span><b data-testid="queue-position" id="pos"></b></span></div>
+  <div class="bar" data-testid="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><i id="bar"></i></div>
+  <div id="cardBox"></div>
+  <p class="mu center"><kbd>Y</kbd> 是疑慮　<kbd>N</kbd> 不是　<kbd>J</kbd>/<kbd>K</kbd> 下／上一筆</p>
+</section>
+
+<section id="s4" class="card center" hidden>
+  <div data-testid="all-done"><div class="ok-ic">✓</div><div class="ttl">複核完成</div><div class="mu" id="cname4"></div></div>
+  <div class="stats">
+    <div><b data-testid="count-total" id="c-all">0</b>疑慮</div>
+    <div class="s-ok"><b data-testid="count-confirmed" id="c-conf">0</b>是疑慮</div>
+    <div class="s-no"><b data-testid="count-rejected" id="c-rej">0</b>不是</div>
+    <div><b data-testid="count-pending" id="c-pend">0</b>待複核</div>
+  </div>
+  <div class="row" style="justify-content:center">
+    <button class="btn" data-testid="export-button" id="exp" title="下載複核結果（Excel 可開）">⬇ 下載報告</button>
+    <button class="btn o" data-testid="restart-button" id="restart2" title="上傳另一份合約">⟲ 再檢查一份</button>
+  </div>
+</section>
+</main>
+<script>
+let data=null,idx=0,busy=false,step=1,lastAct=null,timer=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const st=f=>f.latest_review?f.latest_review.decision:'pending';
+async function api(url,opt){const r=await fetch(url,opt);let d=null;try{d=await r.json()}catch(e){}
+  if(!r.ok)throw new Error((d&&(typeof d.detail==='string'?d.detail:JSON.stringify(d.detail)))||('伺服器錯誤 HTTP '+r.status));return d}
+api('/api/law').then(d=>{$('law').textContent=`　法規：${d.name}（修正 ${d.amended_date}）`}).catch(()=>{});
+function go(n){step=n;[1,2,3,4].forEach(i=>$('s'+i).hidden=i!==n);if(n!==1)$('histBox').hidden=true;
+  document.querySelectorAll('#stepper li').forEach(li=>{const s=+li.dataset.step;
+    if(s===n)li.setAttribute('aria-current','step');else li.removeAttribute('aria-current');li.classList.toggle('done',s<n)})}
+// ① 上傳
+const file=$('file'),drop=$('drop');
+function pick(){const f=file.files[0];$('fn').textContent=f?f.name:'';$('go').disabled=!f}
+file.onchange=pick;
+drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();file.click()}};
+['dragenter','dragover'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(t=>drop.addEventListener(t,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>{if(e.dataTransfer.files.length){file.files=e.dataTransfer.files;pick()}});
+// ② 檢查（階段為客戶端依時間估計：API 是單一呼叫）
+function startWait(withStages){go(2);$('errActs').hidden=true;$('spin').hidden=false;$('msg').textContent='';$('msg').classList.remove('err');
+  $('s2t').innerHTML='檢查中… <span id="sec">0</span> 秒';$('stages').hidden=!withStages;$('s2n').hidden=!withStages;
+  const t0=Date.now(),L=[...$('stages').children];
+  const tick=()=>{const s=(Date.now()-t0)/1000;$('sec').textContent=Math.floor(s);const k=s<2?0:s<4?1:2;
+    L.forEach((li,i)=>{li.className=i<k?'ok':i===k?'on':'';li.textContent=(i<k?'✓ ':'')+['讀取','切條款','比對法條'][i]})};
+  tick();clearInterval(timer);timer=setInterval(tick,500);return t0}
+function fail(prefix,e){clearInterval(timer);$('spin').hidden=true;$('s2t').textContent='沒有完成';
+  $('msg').textContent=prefix+'：'+e.message;$('msg').classList.add('err');$('errActs').hidden=false;$('retry').focus()}
+async function upload(){const f=file.files[0];if(!f)return;lastAct=upload;const t0=startWait(true);
+  const fd=new FormData();fd.append('file',f);
+  try{const d=await api('/api/contracts?use_ai='+$('ai').checked,{method:'POST',body:fd});clearInterval(timer);
+    $('msg').textContent=`完成（${Math.round((Date.now()-t0)/1000)} 秒）：${d.extract_method==='ocr'?'掃描檔，已 OCR':'文字版 PDF'}，${d.clause_count} 條款，${d.finding_count} 項疑慮`;
+    history.replaceState(null,'','?id='+d.contract_id);idx=0;await load(d.contract_id,true)}
+  catch(e){fail('檢查失敗',e)}}
+$('go').onclick=upload;
+async function load(id,quiet){lastAct=()=>load(id);if(!quiet)startWait(false);
+  try{data=await api('/api/contracts/'+encodeURIComponent(id));clearInterval(timer);render()}
+  catch(e){fail('無法載入合約 #'+id,e)}}
+$('retry').onclick=()=>lastAct&&lastAct();
+function restart(){data=null;clearInterval(timer);file.value='';pick();history.replaceState(null,'',location.pathname);go(1);loadHist()}
+// 歷史：點了直接看結果，不必重跑 OCR／AI
+async function loadHist(){try{const L=await api('/api/contracts?limit=6');$('histBox').hidden=!L.length;
+  $('hist').innerHTML=L.map(c=>`<li data-testid="history-item" data-contract-id="${esc(c.id)}" tabindex="0" title="打開檢查結果（不重跑）">
+   <span><span class="nm">${esc(c.filename)}</span><br><span class="meta">${esc(String(c.uploaded_at).slice(5,16).replace('T',' '))}・${c.extract_method==='ocr'?'OCR':'文字'}</span></span>
+   <span class="meta">${esc(c.finding_count)} 疑慮${c.pending_count?`・<b style="color:var(--a)">${esc(c.pending_count)} 待複核</b>`:'・✓'}</span></li>`).join('');
+  $('hist').querySelectorAll('li').forEach(li=>{const open=()=>{const id=li.dataset.contractId;idx=0;history.replaceState(null,'','?id='+id);load(id)};
+    li.onclick=open;li.onkeydown=e=>{if(e.key==='Enter')open()}})}catch(e){$('histBox').hidden=true}}
+$('restart1').onclick=restart;$('restart2').onclick=restart;
+// ③ 複核
+const pend=()=>data.findings.filter(f=>st(f)==='pending');
+function render(){const F=data.findings,n=F.length,c=F.filter(f=>st(f)==='confirm').length,r=F.filter(f=>st(f)==='reject').length,P=pend();
+  $('c-all').textContent=n;$('c-pend').textContent=n-c-r;$('c-conf').textContent=c;$('c-rej').textContent=r;
+  const p=n?Math.round((c+r)/n*100):100;$('bar').style.width=p+'%';$('bar').parentNode.setAttribute('aria-valuenow',p);
+  $('cname').textContent=$('cname4').textContent=data.contract.filename;
+  if(!P.length){go(4);return}
+  go(3);idx=Math.max(0,Math.min(idx,P.length-1));const f=P[idx],cl=data.clauses.find(k=>k.seq===f.clause_seq);
+  $('pos').textContent=`${c+r+1} / ${n}`;$('pos').title=`待複核第 ${idx+1}／${P.length} 筆`;
+  $('cardBox').innerHTML=`<div data-testid="finding-card" data-finding-id="${esc(f.id)}">
+   <span class="chip">條款 ${esc(f.clause_seq)}</span><span class="chip ${f.source==='ai'?'ai':'rule'}" data-testid="finding-source" title="${f.source==='ai'?'AI 語意判讀，請特別查證':'關鍵字規則比對'}">${f.source==='ai'?'AI':'規則'}</span>
+   <div class="ttl">${esc(f.title)}</div>
+   <div class="clause" title="條款原文">${cl&&cl.title&&!String(cl.text||'').startsWith(cl.title)?esc(cl.title)+'　':''}${esc(cl&&cl.text)}</div>
+   <div class="mu" style="margin-top:8px">${esc(f.reason)}</div>
+   <button class="lt" data-testid="law-toggle" aria-expanded="false" onclick="toggleLaw(this)">▸ 個資法 第${esc(f.article_no)}條</button>
+   <div class="law" id="lawTxt" hidden>${esc(f.article_content||'（查無法條原文）')}</div>
+   <div class="big2"><button class="btn ok" data-testid="confirm-button" onclick="review('confirm')" title="確認為疑慮（Y）">✓ 是疑慮</button>
+     <button class="btn no" data-testid="reject-button" onclick="openReject()" title="不是疑慮，可填理由（N）">✕ 不是</button></div>
+   <div id="noteBox" hidden><textarea id="note" data-testid="reject-note" placeholder="理由（選填，Enter 送出，Esc 取消）"></textarea>
+     <div class="nav"><button class="btn o sm" onclick="$('noteBox').hidden=true">取消</button><button class="btn no sm" data-testid="reject-submit" onclick="doReject()">送出</button></div></div>
+   <div class="nav"><button class="btn o sm" data-testid="prev-button" onclick="move(-1)" title="上一筆（K）">← 上筆</button>
+     <button class="btn o sm" data-testid="next-button" onclick="move(1)" title="下一筆（J）">下筆 →</button></div></div>`}
+function toggleLaw(b){const t=$('lawTxt');t.hidden=!t.hidden;b.setAttribute('aria-expanded',String(!t.hidden));b.textContent=(t.hidden?'▸':'▾')+b.textContent.slice(1)}
+function move(d){idx+=d;render()}
+function openReject(){$('noteBox').hidden=false;$('note').focus()}
+function doReject(){review('reject',$('note').value.trim()||null)}
+async function review(d,note){if(busy||step!==3)return;const f=pend()[idx];if(!f)return;busy=true;
+  try{await api(`/api/findings/${f.id}/review`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision:d,note})});
+    data=await api('/api/contracts/'+data.contract.id);render()}
+  catch(e){alert('複核儲存失敗：'+e.message)}busy=false}
+document.addEventListener('keydown',e=>{if(step!==3||!data||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target.tagName;
+  if(t==='TEXTAREA'){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doReject()}else if(e.key==='Escape')$('noteBox').hidden=true;return}
+  if(t==='INPUT')return;const k=e.key.toLowerCase();
+  if(k==='j')move(1);else if(k==='k')move(-1);else if(k==='y')review('confirm');else if(k==='n'){e.preventDefault();openReject()}});
+// ④ 匯出（與 B 版相同格式）
+$('exp').onclick=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const rows=[['疑慮ID','條款','來源','標題','疑慮理由','法條','複核結果','駁回/備註','複核時間']].concat(data.findings.map(f=>{const r=f.latest_review;
+    return[f.id,f.clause_seq,f.source==='ai'?'AI':'規則',f.title,f.reason,'個資法第'+f.article_no+'條',r?(r.decision==='confirm'?'確認疑慮':'駁回'):'待複核',r&&r.note,r&&r.reviewed_at]}));
+  const blob=new Blob(['﻿'+rows.map(r=>r.map(q).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`審閱結果_${data.contract.filename.replace(/\.pdf$/i,'')}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+const qid=new URLSearchParams(location.search).get('id');if(qid)load(qid);else{go(1);loadHist()}
+</script>
+</body></html>

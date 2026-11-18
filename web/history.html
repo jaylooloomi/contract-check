@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>合約外規檢查｜歷史紀錄</title>
+<style>
+:root{--a:#2563eb;--bg:#f5f7fb;--card:#fff;--tx:#0f172a;--mu:#64748b;--bd:#e2e8f0;--a2:#dbeafe}
+@media (prefers-color-scheme:dark){:root{--a:#3b82f6;--bg:#0b1120;--card:#111827;--tx:#e5e7eb;--mu:#94a3b8;--bd:#1f2937;--a2:#1e3a8a}}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei",system-ui,sans-serif;background:var(--bg);color:var(--tx)}
+main{max-width:960px;margin:auto;padding:20px}
+h1{font-size:20px;margin:0 0 4px}.mu{color:var(--mu);font-size:13px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:6px 16px;margin-top:14px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}
+td.nm{white-space:normal;word-break:break-all;font-weight:bold}
+a.v{display:inline-block;padding:2px 9px;border-radius:8px;border:1px solid var(--bd);color:var(--a);text-decoration:none;margin-right:4px}
+a.v:hover{background:var(--a2)}a.v.main{background:var(--a);color:#fff;border-color:var(--a)}
+.pend{color:var(--a);font-weight:bold}
+</style><link rel="stylesheet" href="/static/apple.css"><style>
+h1{font-size:32px;font-weight:700;letter-spacing:-.02em;margin:16px 0 6px}
+.card{border:0;border-radius:20px;box-shadow:var(--sh);padding:10px 22px}
+th{font-weight:500;color:var(--mu);font-size:12px}
+tbody tr:hover{background:var(--a2)}
+a.v{border:0;background:var(--lw);border-radius:980px;padding:3px 11px;font-weight:500}
+a.v.main{background:var(--a);color:#fff}
+</style></head><body><main>
+<h1>🕘 歷史紀錄</h1>
+<p class="mu">檢查過的合約都在這裡，點了會直接打開結果，不用重新跑 OCR 或 AI。<a href="/v/wizard">← 回精靈上傳</a></p>
+<div class="card"><table data-testid="history-list"><thead><tr><th>#</th><th>檔名</th><th>時間</th><th>擷取</th><th>疑慮</th><th>待複核</th><th>打開</th></tr></thead>
+<tbody id="tb"><tr><td colspan="7" class="mu">載入中…</td></tr></tbody></table></div>
+</main>
+<script>
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+fetch('/api/contracts?limit=200').then(r=>r.json()).then(L=>{
+  document.getElementById('tb').innerHTML=L.length?L.map(c=>`<tr data-testid="history-item" data-contract-id="${esc(c.id)}">
+   <td>${esc(c.id)}</td><td class="nm">${esc(c.filename)}</td><td>${esc(String(c.uploaded_at).slice(0,16).replace('T',' '))}</td>
+   <td>${c.extract_method==='ocr'?'OCR':'文字'}</td><td>${esc(c.finding_count)}</td>
+   <td>${c.pending_count?`<span class="pend">${esc(c.pending_count)}</span>`:'✓'}</td>
+   <td><a class="v main" href="/v/wizard?id=${esc(c.id)}" title="精靈複核">D</a><a class="v" href="/?id=${esc(c.id)}">A</a><a class="v" href="/v/b?id=${esc(c.id)}">B</a><a class="v" href="/v/c?id=${esc(c.id)}">C</a></td></tr>`).join('')
+   :'<tr><td colspan="7" class="mu">還沒有檢查過的合約</td></tr>'}).catch(e=>{document.getElementById('tb').innerHTML='<tr><td colspan="7">載入失敗：'+esc(e.message)+'</td></tr>'});
+</script></body></html>

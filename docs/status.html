@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>完成度清單</title>
+<style>
+:root{--a:#2563eb;--a2:#eff6ff;--tx:#1f2937;--mu:#6b7280;--bd:#e5e7eb;--ok:#16a34a;--ok2:#f0fdf4;--no:#b45309;--no2:#fffbeb;--q:#7c3aed;--q2:#f5f3ff}
+*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--tx);font-family:"Microsoft JhengHei",system-ui,sans-serif}
+main{max-width:1500px;margin:auto;padding:24px}
+h1{font-size:26px;margin:0 0 4px}.sub{color:var(--mu);margin:0 0 20px;font-size:15px}
+.tbl{border-radius:14px;overflow:hidden;border:1px solid var(--bd);margin-bottom:28px;background:#fff}
+.cap{padding:14px 20px;font-size:22px;font-weight:bold;color:#fff}
+.done .cap{background:var(--ok)}.todo .cap{background:var(--no)}.ver .cap{background:var(--q)}
+table{width:100%;border-collapse:collapse;font-size:18px}
+th{text-align:left;background:#f9fafb;color:var(--mu);font-size:15px;font-weight:600;padding:10px 16px;border-bottom:1px solid var(--bd)}
+td{padding:11px 16px;border-bottom:1px solid var(--bd);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:0}
+td.k{font-weight:bold;white-space:nowrap;width:22%}
+td.e{color:var(--mu);font-size:15px;width:24%}
+.done td.k{color:var(--ok)}.todo td.k{color:var(--no)}.ver td.k{color:var(--q)}
+</style></head><body><main>
+<h1>做了什麼、還沒做什麼</h1>
+<p class="sub">兩小時內，先讓整個流程能跑起來；準不準，要用真的合約來證明。</p>
+
+<div class="tbl done" id="t-done"><div class="cap">✅ 做好了：為什麼先做這個</div>
+<table><tr><th>做了什麼</th><th>為什麼先做</th><th>怎麼知道真的做好</th></tr>
+<tr><td class="k">把個資法存進電腦</td><td>沒有真的法律，就沒東西可以比對</td><td class="e">66 條，數了三次都一樣</td></tr>
+<tr><td class="k">看得懂掃描的合約</td><td>很多合約是蓋章後掃描的圖片</td><td class="e">一頁約 1 秒，100 個字認對 93 個</td></tr>
+<tr><td class="k">自動找出可能的問題</td><td>關鍵字比對講得出理由，AI 能補抓換句話說的寫法</td><td class="e">自動測試通過</td></tr>
+<tr><td class="k">最後由人決定</td><td>電腦會出錯，所以只負責提醒</td><td class="e">AI 亂編的法條號碼會被擋掉</td></tr>
+<tr><td class="k">4 種好用的畫面＋看過的紀錄</td><td>每個人工作習慣不同；看過的合約不用再等一次</td><td class="e">模擬真人操作 29 次，都成功</td></tr>
+<tr><td class="k">自己出考卷考自己</td><td>題目要我說明怎麼檢查 AI 做得對不對</td><td class="e">新考卷 0/3，也老實寫出來</td></tr>
+</table></div>
+
+<div class="tbl todo" id="t-todo"><div class="cap">⬜ 還沒做：為什麼先不做</div>
+<table><tr><th>還沒做什麼</th><th>為什麼先不做</th><th>之後怎麼做</th></tr>
+<tr><td class="k">更多種法律</td><td>先證明一部可以，其他的照同樣方法加進來就好</td><td class="e">公司法、勞基法</td></tr>
+<tr><td class="k">合約上鎖、到期自動刪</td><td>現在只用假的合約展示；正式版一定要做</td><td class="e">加密、設定保存期限</td></tr>
+<tr><td class="k">登入和放上網路</td><td>跟「找不找得到問題」無關，最後才做</td><td class="e">帳號、權限、操作紀錄</td></tr>
+<tr><td class="k">用「意思」來找法律</td><td>現在用關鍵字找就夠；換句話說的寫法才需要</td><td class="e">讓電腦懂意思相近的詞</td></tr>
+<tr><td class="k">法律修改時自動更新</td><td>個資法很少改，可以手動重抓</td><td class="e">定期檢查有沒有修法</td></tr>
+</table></div>
+
+<div class="tbl ver" id="t-ver"><div class="cap">❓ 做了，但還不知道好不好</div>
+<table><tr><th>哪一項</th><th>為什麼還不知道</th><th>怎麼確認</th></tr>
+<tr><td class="k">找得準不準</td><td>考卷是我自己出的，比較簡單；新考卷 0/3</td><td class="e">拿 20 份真的合約，請法務出答案</td></tr>
+<tr><td class="k">AI 聰不聰明</td><td>小模型常常引錯法條</td><td class="e">換大模型，考同一份新考卷</td></tr>
+<tr><td class="k">法務用起來順不順</td><td>還沒給真的法務用過</td><td class="e">請 3 位法務試用</td></tr>
+<tr><td class="k">很長的合約、很糊的掃描</td><td>只試過 1–2 頁；會認錯字</td><td class="e">試 50 頁以上的合約</td></tr>
+</table></div>
+</main></body></html>

@@ -1,0 +1,82 @@
+[
+ {
+  "contract": "a_marketing",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [
+   2,
+   4,
+   6
+  ],
+  "issues": 3,
+  "misses": [],
+  "false_positives": [],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "b_hr",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 8,
+  "clauses_expected": 8,
+  "hits": [
+   2,
+   4,
+   6
+  ],
+  "issues": 3,
+  "misses": [],
+  "false_positives": [],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "text",
+  "mode": "rule",
+  "method": "text",
+  "clauses": 7,
+  "clauses_expected": 7,
+  "hits": [
+   2,
+   3,
+   5
+  ],
+  "issues": 3,
+  "misses": [],
+  "false_positives": [],
+  "citations_dropped": 0,
+  "seconds": 0.0
+ },
+ {
+  "contract": "c_cloud",
+  "pdf": "scan",
+  "mode": "rule",
+  "method": "ocr",
+  "clauses": 6,
+  "clauses_expected": 7,
+  "hits": [
+   2,
+   3
+  ],
+  "issues": 3,
+  "misses": [
+   5
+  ],
+  "false_positives": [
+   {
+    "seq": 4,
+    "src": "rule",
+    "art": "20",
+    "title": "提供第三人作原目的以外使用"
+   }
+  ],
+  "citations_dropped": 0,
+  "seconds": 7.2
+ }
+]

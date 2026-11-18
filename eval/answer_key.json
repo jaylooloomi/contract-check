@@ -1,0 +1,21 @@
+{
+ "_note": "Decided before any run. expected_article_no refers to 個人資料保護法 (I0050021) in data/app.db.",
+ "a_marketing": {"clause_count": 7,
+  "issues": [
+   {"clause_seq": 2, "issue": "與合作夥伴共享供其行銷＝目的外利用", "expected_article_no": "20"},
+   {"clause_seq": 4, "issue": "終止後仍無期限留存", "expected_article_no": "11"},
+   {"clause_seq": 6, "issue": "未經授權存取不通知當事人", "expected_article_no": "12"}],
+  "clean": [1, 3, 5, 7]},
+ "b_hr": {"clause_count": 8,
+  "issues": [
+   {"clause_seq": 2, "issue": "未經同意蒐集病歷、犯罪前科（特種個資）", "expected_article_no": "6"},
+   {"clause_seq": 4, "issue": "轉交關係企業推銷保險＝目的外利用", "expected_article_no": "20"},
+   {"clause_seq": 6, "issue": "離職後長期保管不銷毀", "expected_article_no": "11"}],
+  "clean": [1, 3, 5, 7, 8]},
+ "c_cloud": {"clause_count": 7,
+  "issues": [
+   {"clause_seq": 2, "issue": "任意境外備份、國家不告知（國際傳輸）", "expected_article_no": "21"},
+   {"clause_seq": 3, "issue": "入侵外流不通知", "expected_article_no": "12"},
+   {"clause_seq": 5, "issue": "揭露予第三方廣告商＝目的外利用", "expected_article_no": "20"}],
+  "clean": [1, 4, 6, 7]}
+}

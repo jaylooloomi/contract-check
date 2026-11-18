@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>合約外規檢查</title>
+<style>
+:root{--b:#2563eb;--bd:#ddd;--warn:#b45309;--hi:#fef3c7}
+*{box-sizing:border-box}body{margin:0;font-family:"Microsoft JhengHei",system-ui,sans-serif;background:#f7f7f5;color:#222}
+header{background:#1e293b;color:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+header b{font-size:18px}header small{opacity:.75}header a{color:#93c5fd}
+.wrap{padding:16px 20px}
+.upload{background:#fff;border:2px dashed #94a3b8;border-radius:8px;padding:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--b);color:#fff;border:0;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:14px}
+.btn:disabled{opacity:.5}.btn.g{background:#16a34a}.btn.r{background:#dc2626}.btn.o{background:#fff;color:#333;border:1px solid var(--bd)}
+.note{font-size:13px;color:#666}
+.stats{display:flex;gap:12px;margin:14px 0;flex-wrap:wrap}.stat{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:10px 16px}.stat b{font-size:20px;display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.panel{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:14px;max-height:66vh;overflow:auto}
+.panel h3{margin:0 0 10px;font-size:16px}
+.clause{padding:10px;border-radius:6px;margin-bottom:8px;border:1px solid transparent;cursor:pointer;font-size:14px;line-height:1.7}
+.clause.flag{background:var(--hi);border-color:#fcd34d}.clause.sel{outline:2px solid var(--b)}
+.f{border:1px solid var(--bd);border-left:4px solid var(--warn);border-radius:6px;padding:10px;margin-bottom:10px;font-size:14px}
+.f.confirm{border-left-color:#16a34a}.f.reject{border-left-color:#9ca3af;opacity:.6}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:10px;background:#fee2e2;color:#991b1b;margin-right:6px}
+.tag.rule{background:#e0e7ff;color:#3730a3}.tag.ai{background:#dcfce7;color:#166534}
+.law{background:#f1f5f9;border-radius:4px;padding:8px;margin:8px 0;font-size:13px;color:#334155;white-space:pre-wrap}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.btn{white-space:nowrap}
+.disc{margin-top:14px;font-size:13px;color:#991b1b}
+#msg{font-size:14px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style></head><body>
+<header><b>合約外規檢查</b><span class="vs" data-testid="version-switcher" style="font-size:13px">版本：<b>A 分割檢視</b> <a href="/v/b">B 工作佇列</a> <a href="/v/c">C 全文標註</a></span><small id="law">載入法規資訊中…</small></header>
+<div class="wrap">
+  <div class="upload">
+    <input type="file" id="file" accept=".pdf" data-testid="upload-input">
+    <label class="note"><input type="checkbox" id="ai" data-testid="ai-checkbox"> 加上 AI 語意檢查（本機 qwen3:8b，約多 30 秒）</label>
+    <button class="btn" id="go" data-testid="submit-button">開始檢查</button>
+    <span id="msg" class="note" data-testid="status-message">支援文字版與掃描版 PDF（掃描檔會自動 OCR）</span>
+  </div>
+  <div id="result" hidden>
+    <div class="stats">
+      <div class="stat"><b id="s-name"></b><span class="note" id="s-meta"></span></div>
+      <div class="stat"><b id="s-all" data-testid="count-total">0</b>可能疑慮</div>
+      <div class="stat"><b id="s-done" data-testid="count-reviewed">0</b>已複核</div>
+    </div>
+    <div class="grid">
+      <div class="panel"><h3>合約條款 <span class="note">（點條款篩選）</span></h3><div id="clauses"></div></div>
+      <div class="panel"><h3>可能疑慮與相關法條</h3><div id="findings"></div></div>
+    </div>
+  </div>
+  <p class="disc" data-testid="disclaimer">※ 系統列出的是「可能疑慮」，供法務人員複核，不代表違法判定。法條內容取自全國法規資料庫原文。</p>
+</div>
+<script>
+let data=null,sel=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+fetch('/api/law').then(r=>r.json()).then(d=>{$('law').innerHTML=`法規庫：${esc(d.name)}（${d.article_count} 條，修正 ${esc(d.amended_date)}）｜<a href="${esc(d.source_url)}" target="_blank">來源</a>`}).catch(()=>$('law').textContent='法規未匯入');
+$('go').onclick=async()=>{
+  const f=$('file').files[0]; if(!f){$('msg').textContent='請先選擇 PDF';return}
+  $('go').disabled=true;$('msg').textContent='檢查中…（OCR 或 AI 需要較久）';
+  const fd=new FormData();fd.append('file',f);
+  try{const r=await fetch('/api/contracts?use_ai='+$('ai').checked,{method:'POST',body:fd});const d=await r.json();
+    if(!r.ok)throw new Error(d.detail);
+    $('msg').textContent=`完成：${d.extract_method==='ocr'?'掃描檔，已 OCR':'文字版 PDF'}，${d.clause_count} 條款，${d.finding_count} 項疑慮`;
+    await load(d.contract_id)}catch(e){$('msg').textContent='失敗：'+e.message}
+  $('go').disabled=false};
+const qid=new URLSearchParams(location.search).get('id');if(qid)load(qid).catch(e=>$('msg').textContent='無法載入合約：'+e.message);
+async function load(id){const r=await fetch('/api/contracts/'+id),d=await r.json();if(!r.ok){$('result').hidden=true;throw new Error(d.detail||('HTTP '+r.status))}data=d;sel=null;$('result').hidden=false;render()}
+function render(){
+  const c=data.contract,fl=new Set(data.findings.map(f=>f.clause_seq));
+  $('s-name').textContent=c.filename;$('s-meta').textContent=`${data.clauses.length} 條款｜${c.extract_method==='ocr'?'OCR 擷取':'文字擷取'}`;
+  $('s-all').textContent=data.findings.length;$('s-done').textContent=data.findings.filter(f=>f.latest_review).length;
+  $('clauses').innerHTML=data.clauses.map(k=>`<div class="clause ${fl.has(k.seq)?'flag':''} ${sel===k.seq?'sel':''}" onclick="sel=sel===${k.seq}?null:${k.seq};render()"><b>${esc(k.title)}</b>　${esc(k.text)}</div>`).join('');
+  const fs=data.findings.filter(f=>!sel||f.clause_seq===sel);
+  $('findings').innerHTML=fs.map(f=>{const rv=f.latest_review;
+   return `<div class="f ${rv?rv.decision:''}" data-testid="finding-card" data-finding-id="${f.id}"><span class="tag">條款 ${f.clause_seq}</span><span class="tag ${f.source}">${f.source==='ai'?'AI':'規則'}</span><b>${esc(f.title)}</b>
+   <div>${esc(f.reason)}</div><div class="law"><b>個資法 第${esc(f.article_no)}條</b>\n${esc(f.article_content)}</div>
+   <div class="acts">${rv?`<span class="note">已${rv.decision==='confirm'?'確認為疑慮':'駁回'}（${esc(rv.reviewed_at.slice(11,16))}）</span>`:''}
+   <button class="btn g" data-testid="confirm-button" onclick="review(${f.id},'confirm')">確認疑慮</button><button class="btn r" data-testid="reject-button" onclick="review(${f.id},'reject')">駁回</button></div></div>`}).join('')||'<p class="note">此條款沒有疑慮。</p>'}
+async function review(id,d){await fetch(`/api/findings/${id}/review`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision:d})});await load(data.contract.id)}
+</script>
+</body></html>
